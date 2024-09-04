@@ -1,11 +1,11 @@
-let js = 'amazing';
-if (js == 'amazing') {
-  alert('Javascript is fun');
+let js = "amazing";
+if (js == "amazing") {
+  alert("Javascript is fun");
 }
 
 console.log(40 + 8 + 23 - 10);
-console.log('Jonas'); //value=Jonas smallest unit of info in js is value
-let firstname = 'jonas'; //creating variable
+console.log("Jonas"); //value=Jonas smallest unit of info in js is value
+let firstname = "jonas"; //creating variable
 console.log(firstname);
 
 true; //automatically a boolean value
@@ -17,19 +17,19 @@ let javascriptIsFun = true;
 console.log(typeof true); //boolean
 console.log(typeof javascriptIsFun); //boolean
 console.log(typeof 23); //number
-console.log(typeof 'korea'); //String
+console.log(typeof "korea"); //String
 console.log(typeof jonas); //undefined as variable not declared
 
 ///////// dynamic typing//////////
 
-javascriptIsFun = 'Yes!'; //string value reassigned
+javascriptIsFun = "Yes!"; //string value reassigned
 
 console.log(typeof javascriptIsFun); //String
 
 /////////////undefined////////////
 
 let t;
-console.log(t); //undefined when a variable is defined in javascript without assinging a value, it automatically takes undefined
+console.log(t); //undefined when a variable is defined in javascript without assigning a value, it automatically takes undefined
 console.log(typeof t); //undefined
 
 t = 1900;
@@ -54,9 +54,9 @@ const ageJonas = now - 1991;
 const ageLogan = now - 2018;
 console.log(ageJonas, ageLogan);
 
-const firstName = 'Abir';
-const lastName = 'Sikdar';
-console.log(firstName + ' ' + lastName); //concatenate
+const firstName = "Abir";
+const lastName = "Sikdar";
+console.log(firstName + " " + lastName); //concatenate
 
 let x = 10 + 5;
 console.log(x); //first 10+5 is done and then assigned to x
@@ -74,22 +74,24 @@ console.log(ageJonas, ageLogan, avgage);
 
 // Strings
 
-const first = 'Abir';
-const job = 'programer';
-const birthyear = 2000;
+const first = "Abir";
+const job = "programmer";
+const birthYear = 2000;
 const year = 2037;
 
-const abir = "I'm" + first + ',a' + (year - birthyear); //need to put that operation in parenthesis, type coercion, convert the number to a string and will work just fine while concatenation
+const abir = "I'm" + first + ", a" + (year - birthYear); //need to put that operation in parenthesis, type coercion, convert the number to a string and will work just fine while concatenation
 
 // Template literals (write a string in a more normal way)
 
-const abirNew = `I'm ${first}, a${year - birthyear} year old ${job}`; //I'm Abir, a 32 year old programmer
+const abirNew = `I'm ${first}, a${year - birthYear} year old ${job}`; //I'm Abir, a 37 year old programmer
 
 console.log(`can also use backticks to write strings inside it`);
 
-console.log('Strings with\n\
+console.log(
+  "Strings with\n\
 multiple \n\
-lines'); //use \n\ for writing multiline string the old way
+lines"
+); //use \n\ for writing multiline string the old way
 
 console.log(`new
 multiline
@@ -109,7 +111,7 @@ if (isOldEnough) {
 
 //TYPE CONVERSION
 
-const inputYear = '1991';
+const inputYear = "1991";
 console.log(Number(inputYear)); //Number function converts number to string;
 console.log(inputYear + 18);
 
@@ -117,30 +119,31 @@ console.log(inputYear + 18);
 
 console.log(`I'm ` + 23 + ` years old`); // concatenate number is converted to string
 
-console.log('23' - '10' - 3); //strings are converted to numbers (10 printed as number)
+console.log("23" - "10" - 3); //strings are converted to numbers (10 printed as number)
 
-console.log('23' + '10' + 3); //numbers are converted to strings string concatenate (23103 printed as string)
+console.log("23" + "10" + 3); //numbers are converted to strings string concatenate (23103 printed as string)
 
-let n = '1' + 1; //11 (string concatenation)
+let n = "1" + 1; //11 (string concatenation)
 n = n - 1;
 console.log(n); //10
 
-console.log(3 + 4 + 5 + '9'); //129
+console.log(3 + 4 + 5 + "9"); //129
 
 //truthy and falsy values
 //falsy values in javascript: 0,'', undefined, null, NaN
 
 console.log(Boolean(0)); //falsy,false
 console.log(Boolean(undefined)); //falsy,false
-console.log(Boolean('Abir')); //all other strings other than empty strings are truthy
-console.log(Boolean('')); //falsy,false
+console.log(Boolean("Abir")); //all other strings other than empty strings are truthy
+console.log(Boolean("")); //falsy,false
 console.log(Boolean({})); //object true
+console.log(Boolean([])); //array true
 
 //Equality Operators
 
 //== vs ===
 
-let fav = prompt('whats yout favourite number?');
+let fav = prompt("whats your favorite number?");
 console.log(fav);
 console.log(typeof fav); //string
 
@@ -148,22 +151,22 @@ console.log(typeof fav); //string
 
 //logical Operators
 
-const hasDrivrsLicence = true;
+const hasDriversLicense = true;
 const hasGoodVision = true;
 
-console.log(hasDrivrsLicence && hasGoodVision); //true
-console.log(!hasDrivrsLicence || !hasGoodVision); //false
+console.log(hasDriversLicense && hasGoodVision); //true
+console.log(!hasDriversLicense || !hasGoodVision); //false
 
 //Switch case
 
-let ch = 'monday;';
+let ch = "monday;";
 switch (ch) {
-  case 'monday':
+  case "monday":
     console.log(`waa waa we waa`);
     break;
-  case 'tuesday':
-  case 'wednesday':
-    console.log('like it!');
+  case "tuesday":
+  case "wednesday":
+    console.log("like it!");
     break;
   default:
     console.log(`not your business`);

@@ -9,7 +9,7 @@ console.log();
 
 //solving problem
 
-//We work for a company that makes a smart home thermometer.Given the array of temperatures of one day, calculate the temperature amplitude. Keep in mind that sometimes there might be a sensor error.
+//We work for a company that makes a smart home thermometer. Given the array of temperatures of one day, calculate the temperature amplitude. Keep in mind that sometimes there might be a sensor error.
 
 //temperature altitude is the highest and the lowest value in the array.
 
@@ -53,12 +53,12 @@ const calcTempAmplitudeNew = function (t1, t2) {
 const amplitudeNew = calcTempAmplitudeNew([3, 5, 1], [9, 0, 5]);
 console.log(amplitudeNew);
 
-//we need to do some measuments in a unit called kelvin
+//we need to do some measurements in a unit called kelvin
 
 const measureKelvin = function () {
   const measurement = {
     type: 'temp',
-    unit: 'celcius',
+    unit: 'celsius',
     //fix: prompt returns values as strings so in the later part where we add it actually concatenates the string.
     value: Number(prompt('Degrees celsius:')),
   };

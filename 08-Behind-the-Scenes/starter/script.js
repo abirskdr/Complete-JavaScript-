@@ -22,10 +22,10 @@ function calcAge(birthYear) {
 
     //block scoping
     if (birthYear >= 1981 && birthYear <= 1996) {
-      var millenial = true;
-      const firstName = 'Steven'; //DECLARING A NEW VARIABLE firstName INSIDE THIS BLOCK..... the firstName here and the firstName in the global scope are completely different variables as they are defined in different scope, we can have multiple variables with the same name if they are defined in diferent scopes and can have different values.
+      var millennial = true;
+      const firstName = 'Steven'; //DECLARING A NEW VARIABLE firstName INSIDE THIS BLOCK..... the firstName here and the firstName in the global scope are completely different variables as they are defined in different scope, we can have multiple variables with the same name if they are defined in different scopes and can have different values.
 
-      const str = `oh, and you are a millenial, ${firstName}`; //gets firstName from the same scope as JS looks for firstName though both variables have the same name, but have dfferent values, variable lookup starts from the same scope as it is found in the same scope we see Steven  and JS does not go for variable lookup in the scope chain.
+      const str = `oh, and you are a millennial, ${firstName}`; //gets firstName from the same scope as JS looks for firstName though both variables have the same name, but have different values, variable lookup starts from the same scope as it is found in the same scope we see Steven  and JS does not go for variable lookup in the scope chain.
       console.log(str);
 
       /////////////////////////////////
@@ -39,7 +39,7 @@ function calcAge(birthYear) {
 
       output = 'NEW OUTPUT'; //reassigning a variable inside a child scope that we accessed from the parent scope.
     }
-    console.log(millenial); //can be accessed as var is not block scoped.
+    console.log(millennial); //can be accessed as var is not block scoped.
     //console.log(str); //const and let variables inside a block "{}" are block scoped
 
     //add(2, 3); //cannot call the function here as function are block scoped and can be only called inside the block where it was defined.
@@ -54,7 +54,7 @@ function calcAge(birthYear) {
 
 //
 
-//console.log(age); //here we will not be able to access the age varible as this is outside the scope.
+//console.log(age); //here we will not be able to access the age variable as this is outside the scope.
 
 //printAge();//here we will not be able to access the printAge() function as this is outside the scope.
 
