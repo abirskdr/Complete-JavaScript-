@@ -1,5 +1,20 @@
 'use strict';
 
+//************  Topic Covered In This Module ************//
+// !TOPIC 1: DESTRUCTURING
+//  !1.1: Destructuring Arrays
+//   !1.1.a: Swap nth and (n+1)th element
+//  !1.2: Destructuring Objects
+// !TOPIC 2: SPREAD OPERATOR
+//   !2.1: DIFFERENCE BETWEEN SHALLOW COPYING AND DEEP COPYING
+//   !2.2: Spread operator on strings
+// !TOPIC 3: REST PATTERN AND REST OPERATOR
+//  !3.1: Rest Operator on Arrays and Objects
+//  !3.2: Rest operator on functions
+// !TOPIC 4: Short Circuiting (&& and ||)
+//  !
+//*******************************************************/
+
 const restaurant = {
   //the restaurant object is an object literal as we have written the object literally using the  "{ }" syntax in our code, or the code has been written using the object literal syntax.
   name: 'Classico Italiano',
@@ -13,12 +28,12 @@ const restaurant = {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]]; //returning an array.
   },
 
-  //function that takes object as arguments and destructures the same object.
+  //function that takes object as arguments and de-structures the same object.
   orderDelivery: function (
     { starterIndex = 1, mainIndex = 0, time = '20:00', address } //here a single parameter in the form of object is expected, the name of the properties used while calling the function has to be same as the name in the parameters, the order does not matter (object), default values are given so if values not specified while calling the function these values are used ,(as we have not given any default value to address, it will show undefined if not specified while calling).
   ) {
     console.log(
-      `Your order has been recieved ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+      `Your order has been received ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
     );
   },
 
@@ -51,7 +66,9 @@ const restaurant = {
   },
 };
 
-///////////////////////////////////////Destructuring Arrays/////////////////////////////////////////////////
+//****************************************TOPIC 1: DESTRUCTURING**************************************** */
+
+//***************************************1.1: Destructuring Arrays***************************************/
 
 console.log(' ');
 
@@ -98,9 +115,25 @@ console.log(f, t);
 
 //with destructuring
 
-[first, second] = [second, first]; //switching//now we do not use let or const as we are just reassigning the values of the two variables
+[first, second] = [second, first]; //switching //now we do not use let or const as we are just reassigning the values of the two variables
 
 console.log(first, second); //value of first is in second and value of second is in first
+
+//*****1.1.a: Swap nth and (n+1)th element*****/
+//now here we can swap the n and (n+1)th element of an array using this technique.
+
+// suppose an array
+const tempArr = [1, 2, 3, 4, 5, 6];
+
+// what we want is [2,1,4,3,6,5];
+
+// we can do that by
+
+[tempArr[1], tempArr[0]] = [tempArr[0], tempArr[1]];
+
+console.log('swapped elements in an array: ', tempArr);
+
+//******************************************* */
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -126,7 +159,7 @@ console.log(k, l, m);
 
 //////////////////////////////////////////////////////////////////////
 
-// Setting default values to the variables when we are extracting them (helpful in the case when we dont know the length of the array)/////////////////////////////////////////////
+// Setting default values to the variables when we are extracting them (helpful in the case when we don't know the length of the array)/////////////////////////////////////////////
 
 const [p, q, r] = [8, 9];
 console.log(p, q, r); //r becomes undefined as we have not assigned any value, if is the same as reading value from an index that does not exist.
@@ -137,11 +170,9 @@ console.log(d, e, g); //g is 1 here
 
 /////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+//*******************************************************************************************************/
 
-//
-
-////////////////////////////////////////Destructuring Objects////////////////////////////////////////
+//***************************************1.2: Destructuring Objects***************************************/
 
 console.log(' ');
 
@@ -153,7 +184,7 @@ console.log(' ');
 
 //TO DESTRUCTURE OBJECTS WE USE "{}"
 
-const { name, openingHours, categories } = restaurant; //in objects the order of the properties does not matter so we have to provide the variable names exactly same as the property names that we want to retrieve from the object, and also dont need to manually skip elements like in arrays.
+const { name, openingHours, categories } = restaurant; //in objects the order of the properties does not matter so we have to provide the variable names exactly same as the property names that we want to retrieve from the object, and also don't need to manually skip elements like in arrays.
 
 console.log(name, openingHours, categories); //find out why name is depreciated .ts(6358), maybe we are in the global scope and are overwriting a variable that already exists in the window object
 
@@ -178,7 +209,7 @@ console.log(menu, starters); //shows menu as an empty object (default value)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////Mutatuing Variables while destructuring objects////////////////////////
+/////////////////Mutating Variables while destructuring objects////////////////////////
 
 let u = 23;
 let v = 9;
@@ -202,6 +233,13 @@ const {
 console.log(open, close);
 ////////////////////////////
 
+const {
+  openingHours: {
+    fri: { open: open2, close: close2 },
+  },
+} = restaurant;
+console.log(open2, close2);
+
 // const { location: oc } = location; //we cannot access properties any property of an object like this directly, we need to use the (.) dot
 // console.log(oc);
 
@@ -215,7 +253,11 @@ restaurant.orderDelivery({
   starterIndex: 2,
 });
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+//*******************************************************************************************************/
+
+// ************************************************************************************************/
+
+// ************************************TOPIC 2: SPREAD OPERATOR************************************/
 
 ////////////////////////////////////////Spread Operator////////////////////////////////////////////
 
@@ -227,7 +269,9 @@ console.log(' ');
 
 /////////////////////////////////////
 
-//the spread operator works on all "iterables", like arrays, strings, maps, sets. SINCE ES 2018 SPREAD OPERATORS ALSO WORKS ON OBJECTS EVEN THOUGH OBJECTS ARE NOT ITERABLES.
+//the spread operator works on all "iterables", like arrays, strings, maps, sets. SINCE ES 2018 SPREAD OPERATORS ALSO WORKS ON //? OBJECTS EVEN THOUGH OBJECTS ARE NOT ITERABLES.
+
+//!Objects are not iterable in JS, while map is iterable
 
 const ar = [7, 8, 9];
 
@@ -248,11 +292,14 @@ console.log(...newArr); //gives us the values of the array newArr as 1,2,7,8,9
 const newMenu = [...restaurant.mainMenu, 'Gnocci']; //adding gnocci at the end of the array mainMenu in the restaurant object.
 console.log(newMenu);
 
-//The Spread Operator is very similar to Destructuring but the difference is that the spread operator takes all the elements from the array and also does not create new variables, so we can only use it in places where we would otherwise write values separated by commas.
+//!The Spread Operator is very similar to Destructuring but the difference is that the spread operator takes all the elements from the array and also does not create new variables,
+//!so we can only use it in places where we would otherwise write values separated by commas.
 
 ////////////////////////////////////////////////////////////////////////////////
 
-//WHAT IS THE DIFFERENCE BETWEEN COPYING AND SHALLOW AND DEEP COPYING (APPLIES ONLY TO REFERENCE TYPE VARIABLES)
+//? WHAT IS THE DIFFERENCE BETWEEN SHALLOW COPYING AND DEEP COPYING (APPLIES ONLY TO REFERENCE TYPE VARIABLES)
+
+// *****2.1: DIFFERENCE BETWEEN SHALLOW COPYING AND DEEP COPYING*****/
 
 ///////////////////////////////////////////
 const numbers = [1, 2, 3, 4, 5];
@@ -262,23 +309,144 @@ const copyNumbers = numbers; //copying
 numbers[2] = 6;
 
 console.log(numbers, copyNumbers); //are same
-//both the 'numbers' and 'copyNumbers' identifiers point to the same array(object) in the heap, they point to the same address in the callstack which has a reference to a piece of memory in the heap (here the array(object)), change in one therefore reflects in both of them
+//!both the 'numbers' and 'copyNumbers' identifiers point to the same array(object) in the heap, they point to the same address in the call stack which has a reference to a piece of memory in the heap (here the array(object)), change in one therefore reflects in both of them
 
-const shallowCopyNumbers = [...numbers]; //causing a shallow copy
+const shallowCopyNumbers = [...numbers]; //?causing a shallow copy
 
 numbers[0] = 10;
 
 console.log(numbers, shallowCopyNumbers); //are different
-//the "numbers" and "shallowCopyNumbers" identifiers point to different arrays in the heap, they point to different addresses in the callstack, each has different value (reference to a piece of memory in the heap)
+//!the "numbers" and "shallowCopyNumbers" identifiers point to different arrays in the heap, they point to different addresses in the call stack, each has different value (reference to a piece of memory in the heap)
 
 ///////////////////////////////////////////
 
-////////////////shallow copying an array/////////////////
+////////////////*shallow copying an array/////////////////
 
 const copyArr = [...restaurant.mainMenu]; //creates a shallow copy of the array
 console.log(copyArr); //copying the array to copyArr
 
 ///////////////////////////////////////////
+
+//? create function that deep copies of an object/array
+// !often use JSON.parse(JSON.stringify(object)); to deep copy an object/array.
+
+// !Limitations of this
+//Limitations of JSON.parse() and JSON.stringify()
+// While the JSON approach is simple, it has its limitations:
+
+// !Non-Serializable Properties: Functions, undefined, and certain other non-serializable values are lost when using JSON.stringify().
+// const obj = {
+//   name: "Alice",
+//   age: undefined,   // `undefined` is ignored
+//   greet: function() { console.log("Hello!"); }  // functions are ignored
+// };
+
+// const jsonString = JSON.stringify(obj);
+// console.log(jsonString); // Output: '{"name":"Alice"}'
+
+// !Circular References: Objects with circular references will cause JSON.stringify() to throw an error.
+//const obj = {};
+// obj.self = obj; // Circular reference
+
+// JSON.stringify(obj); // Throws an error: "TypeError: Converting circular structure to JSON"
+
+// !Date Objects: Dates are converted to strings during the process, losing their original type.
+// const date = new Date();
+// const jsonString = JSON.stringify({ createdAt: date });
+
+// console.log(jsonString); // Output: '{"createdAt":"2024-11-11T10:30:00.000Z"}'
+
+// const parsed = JSON.parse(jsonString);
+// console.log(parsed.createdAt instanceof Date); // false, it's a string
+
+//we need to manually make it
+// parsed.createdAt = new Date(parsed.createdAt);
+
+//! use lodash cloneDeep() method
+//const lodash = require('lodash');
+// let employee = {
+//     eid: "E102",
+//     ename: "Jack",
+//     eaddress: "New York",
+//     salary: 50000,
+//     details: function () {
+//         return "Employee Name: "
+//             + this.ename + "-->Salary: "
+//             + this.salary;
+//     }
+// }
+
+// let deepCopy = lodash.cloneDeep(employee);
+
+//! CloneDeep function would look something like
+//function cloneDeep(value, seen = new WeakMap()) {
+// Handle primitive types and functions, which can be returned as-is
+//   if (value === null || typeof value !== 'object') {
+//     return value;
+//   }
+
+//   // Handle circular references using WeakMap
+//   if (seen.has(value)) {
+//     return seen.get(value);
+//   }
+
+//   // Handle Date objects
+//   if (value instanceof Date) {
+//     return new Date(value);
+//   }
+
+//   // Handle RegExp objects
+//   if (value instanceof RegExp) {
+//     return new RegExp(value);
+//   }
+
+//   // Handle Map
+//   if (value instanceof Map) {
+//     const mapCopy = new Map();
+//     seen.set(value, mapCopy); // Track reference to handle circular structures
+//     value.forEach((val, key) => {
+//       mapCopy.set(cloneDeep(key, seen), cloneDeep(val, seen));
+//     });
+//     return mapCopy;
+//   }
+
+//   // Handle Set
+//   if (value instanceof Set) {
+//     const setCopy = new Set();
+//     seen.set(value, setCopy); // Track reference to handle circular structures
+//     value.forEach(val => {
+//       setCopy.add(cloneDeep(val, seen));
+//     });
+//     return setCopy;
+//   }
+
+//   // Handle Arrays
+//   if (Array.isArray(value)) {
+//     const arrayCopy = [];
+//     seen.set(value, arrayCopy); // Track reference to handle circular structures
+//     value.forEach(item => {
+//       arrayCopy.push(cloneDeep(item, seen));
+//     });
+//     return arrayCopy;
+//   }
+
+//   // Handle general Objects
+//   const clonedObject = {};
+//   seen.set(value, clonedObject); // Track reference to handle circular structures
+//   for (const key in value) {
+//     if (value.hasOwnProperty(key)) {
+//       clonedObject[key] = cloneDeep(value[key], seen);
+//     }
+//   }
+
+//   return clonedObject;
+// }
+
+//? create a function that checks if two nested objects are equal or not
+
+//it will be same as the recursive function on top of it
+
+//***************************************** */
 
 ///////////////join two arrays/////////////
 
@@ -287,7 +455,9 @@ console.log(addArr); //adding two arrays in the addArr
 
 //////////////////////////////////////////
 
-//the spread operator works on all "iterables", like arrays, strings, maps, sets. SINCE ES 2018 SPREAD OPERATORS ALSO WORKS ON OBJECTS EVEN THOUGH OBJECTS ARE NOT ITERABLES.
+// *****2.2: Spread operator on strings*****/
+
+//? the spread operator works on all "iterables", like arrays, strings, maps, sets. SINCE ES 2018 SPREAD OPERATORS ALSO WORKS ON OBJECTS EVEN THOUGH OBJECTS ARE NOT ITERABLES.
 
 const str = 'Jonas';
 
@@ -298,6 +468,8 @@ console.log(...str);
 //console.log(`${...str} Schmedtmann`);//gives us syntax error as in template literals, inside "${}" multiple values are not expected separated by commas.(Multiple values separated by commas are only expected when we pass arguments in a function of we build a new array).
 
 console.log(str, 'Schmedtmann'); //works fine
+
+//***************************************** */
 
 ////////////spread operator used in argument///////////////////
 
@@ -333,11 +505,16 @@ console.log(restaurant.name); //Classico Italiano
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////REST PATTERN AND REST PARAMETERS//////////////////////////////////
+// ************************************************************************************************/
 
-//Rest does the opposite of spread operator (i.e. to pack elements into an array), has the same syntax as of spread operator
+// ************************************TOPIC 3: REST PATTERN AND REST OPERATOR************************************/
 
-//Spread operator is used on the right side of the assignment operator
+//?Rest does the opposite of spread operator (i.e. to pack elements into an array), has the same syntax as of spread operator
+
+//?Spread operator is used on the right side of the assignment operator
+
+// *****3.1: Rest Operator on Arrays and Objects*****/
+
 const typedNumbers = [1, 2, ...[3, 4]];
 
 //Rest is also ("...") but is on the left side of the assignment operator
@@ -353,7 +530,7 @@ const [pizza, , risotto, ...otherFood] = [
 // const [pizza, , risotto, ...otherFood, bread] = [
 //   ...restaurant.mainMenu,
 //   ...restaurant.starterMenu,
-// ];//THE REST ELEMENT MUST BE THE LAST ELEMENT AND FOR THE SAME REASON THERE CAN BE ONLY ONE REST IN ANY DESTRUCTURING ASSIGNMENT.
+// ];//!THE REST ELEMENT MUST BE THE LAST ELEMENT AND FOR THE SAME REASON THERE CAN BE ONLY ONE REST IN ANY DESTRUCTURING ASSIGNMENT.
 
 console.log(pizza, risotto, otherFood); //pizza and risotto as strings leaving the middle element and , here the mainMenu array ends and the starterMenu array starts and the starterMenu array elements are stored in the otherFood as array of elements using rest operator.(does not include skipped element)
 
@@ -365,15 +542,17 @@ console.log(weekdays); //gives friday and thursday as properties in the  new obj
 
 //////////////////////////////////////////////////////////////////////
 
-//////////////////////////Rest in functions///////////////////////////
+//***************************************** */
+
+// *****3.2 Rest operator on functions*****/
 
 const add = function (...numbers) {
-  //In line 304 where spread operator is used to spread the elements of array ingredients and passed as arguments of the function orderPasta, here we pass separated "," numbers and the function parameter uses Rest operator to combine the values into elements of array number. ("..." used as parameter is REST OPERATOR ").By this the function can accept both functions and numbers.
+  //In line 304 where spread operator is used to spread the elements of array ingredients and passed as arguments of the function orderPasta, here we pass separated "," numbers and the function parameter uses Rest operator to combine the values into elements of array number. ("..." used as parameter is REST OPERATOR "). By this the function can accept both functions and numbers.
   let sum = 0;
   for (let ij = 0; ij < numbers.length; ij++) {
     sum += numbers[ij];
   }
-  console.log(numbers);
+  console.log(numbers); //!numbers is an array
   console.log(sum);
 };
 add(2, 3);
@@ -384,23 +563,23 @@ const xa = [23, 57, 71];
 
 add(...xa); //using spread operator before passing it as argument in the function add.
 
-//SPREAD OPERATOR IS USED AS ARGUMENT, REST OPERATOR IS USED AS A PARAMETER
+//!SPREAD OPERATOR IS USED AS ARGUMENT, REST OPERATOR IS USED AS A PARAMETER
 
 //////////////////////////////////////////////////////////////////////
 
 ////////////////////////Rest in our project///////////////////////////
 
-restaurant.orderPizza('mushroom', 'onion', 'olives', 'spinach'); //mushroom is put as the mainIngredient and all the other ingredients are put in the otherIngredients parameter where ther are made into an array.
+restaurant.orderPizza('mushroom', 'onion', 'olives', 'spinach'); //mushroom is put as the mainIngredient and all the other ingredients are put in the otherIngredients parameter where they are made into an array.
 
 restaurant.orderPizza('mushroom'); //mushroom is put in the mainIngredient , and the otherIngredients is an empty array.
 
 //////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////SPREAD AND REST OPERATOR LOOK SIMILAR BUT WE USE THE SPREAD OPERATOR WHERE WE WOULD OTHERWISE WRITE VALUES SEPARATED BY COMMAS AND THE REST OPERATOR IS USED WHERE WE WOULD OTHERWISE WRITE VARIABLE NAMES SEPARATED BY COMMAS./////////////////////////////
+//!SPREAD AND REST OPERATOR LOOK SIMILAR BUT WE USE THE SPREAD OPERATOR WHERE WE WOULD OTHERWISE WRITE VALUES SEPARATED BY COMMAS AND THE REST OPERATOR IS USED WHERE WE WOULD OTHERWISE WRITE VARIABLE NAMES SEPARATED BY COMMAS.
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+// ************************************************************************************************/
 
-//////////////////////////////////Short Circuiting (&& and ||)///////////////////////////////////////
+// ************************************TOPIC 4: Short Circuiting (&& and ||)************************************/
 
 //There are more uses of the logical operators other than combining boolean values
 
@@ -410,11 +589,11 @@ restaurant.orderPizza('mushroom'); //mushroom is put in the mainIngredient , and
 
 //short-circuit evaluation
 
-//////////////////////////////////OR OPERATOR///////////////////////////////////////
+// *****4.1: OR Operator*****/
 
 console.log(3 || 'Jonas'); //3 (not boolean).
 
-//FROM OBSERVATION: short-cicuiting in the case of "||" (two operands), if the first value is truthy value (operand) it will immediately return the first value, JS will not evaluate the second value (operand).
+//FROM OBSERVATION: short-circuiting in the case of "||" (two operands), if the first value is truthy value (operand) it will immediately return the first value, JS will not evaluate the second value (operand).
 
 console.log('' || 'Jonas'); //Jonas, " " is a falsy value, string is a truthy value.
 
@@ -426,12 +605,12 @@ console.log(null || undefined); //undefined
 
 console.log(undefined || 0 || ' ' || 'Hello' || null); //Hello, that is because "Hello" is the first truthy value in the chain of operation, short-circuiting takes place, JS stops evaluating the operands after finding the first truthy value.
 
-//CONCLUSION:   IN CASE OF "||", JS FINDS THE FIRST TRUTHY VALUE IN THE CHAIN OF OPERATION, IF IT FINDS THE FIRST TRUTHY VALUE, IRRESPECTIVE OF ITS POSITION IN THE OPERATION (EVEN IF IT IS IN THE LAST POSITION,  "||" OPERATOR WORKS AS EXPECTED RETURNING THE ONLY TRUTHY VALUE i.e. IN THE LAST POSITION { it is a name given to the behaviour of the "||" operator that returns the first truthy value it finds}), THAT VALUE IS RETURNED AND SHORT-CIRCUITING TAKES PLACE, JS STOPS EVALUATING THE OPERATION ANY FURTHER. HOWEVER IF IT CANNOT FIND ANY TRUTHY VALUE IN THE OPERATION, THE LAST OPERAND IS RETURNED .
+//!CONCLUSION:   IN CASE OF "||", JS FINDS THE FIRST TRUTHY VALUE IN THE CHAIN OF OPERATION, IF IT FINDS THE FIRST TRUTHY VALUE, IRRESPECTIVE OF ITS POSITION IN THE OPERATION (EVEN IF IT IS IN THE LAST POSITION,  "||" OPERATOR WORKS AS EXPECTED RETURNING THE ONLY TRUTHY VALUE i.e. IN THE LAST POSITION { it is a name given to the behavior of the "||" operator that returns the first truthy value it finds}), THAT VALUE IS RETURNED AND SHORT-CIRCUITING TAKES PLACE, JS STOPS EVALUATING THE OPERATION ANY FURTHER. HOWEVER IF IT CANNOT FIND ANY TRUTHY VALUE IN THE OPERATION, THE LAST OPERAND IS RETURNED .
 
 const guests1 = restaurant.numGuests ? restaurant.numGuests : 10;
 console.log(guests1);
 
-//can be used in the place of ternery operator or if/else statement.
+//can be used in the place of ternary operator or if/else statement.
 const guests2 = restaurant.numGuests || 10;
 console.log(guests2);
 
@@ -472,7 +651,7 @@ restaurant.orderPizza && restaurant.orderPizza('mushroom', 'spinach'); //if orde
 //now to solve this problem of guests2 not getting assigned 0 when numGuest is 0 i.e. a falsy value and the expression not getting executed as per our expectations, we have nullish operator that was introduced in ES 2020.
 
 //Nullish operator works like OR operator but considering only nullish values as falsy values, empty strings and 0 s are not falsy values for nullish operator.
-//Nullish:null and undefined.
+//Nullish: null and undefined.
 restaurant.numGuests = 0;
 const guestCorrect = restaurant.numGuests ?? 10;
 console.log(guestCorrect);
@@ -514,7 +693,7 @@ for (const [i, el] of ourMenu.entries()) console.log(`${i + 1}:${el}`);
 
 ////////////////////////////ENHANCED OBJECT LITERAL (ES6)///////////////////////////////////
 
-//ES6 introduced 3 ways which we can write object iterals more easily.
+//ES6 introduced 3 ways which we can write object literals more easily.
 
 //#3
 
@@ -555,7 +734,7 @@ const hotel = {
 
   //before ES6 we would have to add this to have the object "hoursOpen" as a property inside the object "hotel".//
   // hoursOpen: hoursOpen,
-  //the confusion creating thing here is that the porperty name is same as the variable name from which we are getting the object.//
+  //the confusion creating thing here is that the property name is same as the variable name from which we are getting the object.//
 
   //with ES6 Enhanced Object literals
   hoursOpen, // we take the hoursOpen object and put it as the property, with  name exactly as the variable name, also to make this object "hourOpen" the property of the object "hotel", we have to define it above this object ("hotel"), or else JS will not be able to access openHours before initialization
@@ -612,16 +791,16 @@ if (restaurant.openingHours.mon) {
   console.log(restaurant.openingHours.mon.open); //does not print
 }
 
-//in this case we are checking for only one property that is monday, but if other porperties are also absent we would have to check for each, hence multiple conditions and multiple if statements in this case we use OPTIONAL CHAINING, if a certain porperty does not exists, then undefined is returned immediately, it avoids errors.
+//in this case we are checking for only one property that is monday, but if other properties are also absent we would have to check for each, hence multiple conditions and multiple if statements in this case we use OPTIONAL CHAINING, if a certain property does not exists, then undefined is returned immediately, it avoids errors.
 
 console.log(restaurant.openingHours.mon?.open); //(?)optional chaining operator
 
-//if the porperty before the question mark exists (here, "mon"), then JS will read from there on (here will read "open"), if the property before the question mark does not exists, then  the property after it will not be read and immediately undefined will be returned.
+//if the property before the question mark exists (here, "mon"), then JS will read from there on (here will read "open"), if the property before the question mark does not exists, then  the property after it will not be read and immediately undefined will be returned.
 //here by exists we mean the nullish concept where only the nullish values are falsy, like null and undefined.
 
 console.log(restaurant.openingHours.fri?.open); //11
 
-console.log(restaurant.openingHours?.mon?.open); //checks for openingHours property and mon property, whereever it fails to find the property, it stops reading further.
+console.log(restaurant.openingHours?.mon?.open); //checks for openingHours property and mon property, wherever it fails to find the property, it stops reading further.
 
 //real world simulation of the OPTIONAL CHAINING (?)
 
@@ -723,7 +902,7 @@ const orderSet = new Set([
   'Risotto',
   'Pasta',
   'Pizza',
-]); //syntax of declating a set
+]); //syntax of declaring a set
 //here the set holds string values, but set can also hold different data types as well as mixed data types.
 
 console.log(orderSet); //Set(3) {"Pasta", "Pizza", "Risotto"}
@@ -771,7 +950,7 @@ console.log(orderSet);
 
 console.log(orderSet[0]); //gives undefined, as sets do not have indices
 
-//We cannot retrieve values out of a set as there are no indices in a set, there is no way to get values out of a set, as all values are unique and their order does not matter, there is no need to get values out of the set, all we need to know if a certian value present in a set or not.
+//We cannot retrieve values out of a set as there are no indices in a set, there is no way to get values out of a set, as all values are unique and their order does not matter, there is no need to get values out of the set, all we need to know if a certain value present in a set or not.
 
 /////////////////////////////////////////////////////////////////////
 
@@ -793,7 +972,7 @@ for (const order of orderSet) {
 
 /////////////////////////////////////////////////////////////////////
 
-////////////////////////usecase of SETS//////////////////////////////
+////////////////////////use case of SETS//////////////////////////////
 
 const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
 
@@ -842,7 +1021,7 @@ const rest = new Map(); //syntax of creating an empty map
 
 //////////////////////////adding data to the map////////////////////////////
 
-rest.set('name', 'Classico Italiano'); //using the "set" method, we add data to the data structure, the fisrt argument is the key and the second argument is the value.
+rest.set('name', 'Classico Italiano'); //using the "set" method, we add data to the data structure, the first argument is the key and the second argument is the value.
 
 console.log(rest.set(1, 'Firenze,Italy')); //calling the "set" method does not only add key value pair but also return the updated map
 
@@ -909,7 +1088,7 @@ console.log(rest.size);
 
 //Retreving the value of a map key that is an array
 
-console.log(rest.get([1, 2])); //will not retrieve "Test", will return undefined, THIS IS SO AS THIS ARRAY AND THE ARRAY AS THE KEY ARE NOT THE SAME OBJECT EVEN THOUGH THEY HAVE THE SAME ELEMENTS, THEY ARE NOT THE SAME OBJECT IN THE HEAP, TO MAKE IT WORK WE WOULD HAVE TO CREATE A VARIABLE TO STORE THE ARRAY AND USE THE VARIABLE AS THE KEY AND USE THE SAME VARIABLE (array) TO GET THE VALUES STORED WITH THAT ARRRAY AS KEY.
+console.log(rest.get([1, 2])); //will not retrieve "Test", will return undefined, THIS IS SO AS THIS ARRAY AND THE ARRAY AS THE KEY ARE NOT THE SAME OBJECT EVEN THOUGH THEY HAVE THE SAME ELEMENTS, THEY ARE NOT THE SAME OBJECT IN THE HEAP, TO MAKE IT WORK WE WOULD HAVE TO CREATE A VARIABLE TO STORE THE ARRAY AND USE THE VARIABLE AS THE KEY AND USE THE SAME VARIABLE (array) TO GET THE VALUES STORED WITH THAT ARRAY AS KEY.
 
 const arrKey = [1, 2];
 
@@ -1015,6 +1194,8 @@ console.log([...question.values()]); //(7) ["What is the best programming langu
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
+//! Also read about WeakSet and WeakMap
+
 //****************************************************************************************
 ///////////////////WHICH DATA STRUCTURE TO USE (IN NOTEBOOK)//////////////////////////////
 //****************************************************************************************
@@ -1041,14 +1222,20 @@ console.log('B737'.length); //4
 //////////////////strings also have methods//////////////////
 
 //****************************************************************** */
-//Strings are just primitives, methods should only be avaliable for object such as arrays, however JS is really smart and so whenever we call a method on a string, JS behind the scenes converts that string primitive to a string object with the same content, and then on that object the methods are called. It takes that string and puts it into a box which is the object, and this process is called BOXING.
+//Strings are just primitives, methods should only be available for object such as arrays, however JS is really smart and so whenever we call a method on a string,
+//JS behind the scenes converts that string primitive to a string object with the same content, and then on that object the methods are called.
+//It takes that string and puts it into a box which is the object, and this process is called BOXING.
+
+//String specifications among programming languages vary, however most languages treat them as reference types.
+//But strings in JavaScript are different. They are immutable primitives.
+//This means that the characters within them may not be changed and that any operations on strings actually create new strings.
 //****************************************************************** */
 
 /////////////////////////indexOf()///////////////////////////
 
 console.log(airline.indexOf('r')); //6   //Stings are also 0 based (CASE SENSITIVE)
 
-console.log(airline.lastIndexOf('r')); //10 //last occurence of the alphabet "r" in the string.
+console.log(airline.lastIndexOf('r')); //10 //last occurrence of the alphabet "r" in the string.
 
 console.log(airline.indexOf(' ')); //4
 
@@ -1060,7 +1247,7 @@ console.log(airline.indexOf('Portugal')); //8 //where the word portugal starts (
 
 ////////////////////////slice method/////////////////////////
 
-//slice(x,y);//where x is the index at which the string will be sliced from the front,the starting value, and y is the index where the string will be sliced to, the end value.The method will also work without the end value where the substring retuned after slicing will be from x till the end of the original string.
+//slice(x,y);//where x is the index at which the string will be sliced from the front,the starting value, and y is the index where the string will be sliced to, the end value.The method will also work without the end value where the substring returned after slicing will be from x till the end of the original string.
 
 console.log(airline.slice(4)); //"Air Portugal" (sub string), this does not change the underline string.
 
@@ -1076,7 +1263,7 @@ console.log(airline.slice(airline.lastIndexOf(' ') + 1)); //Portugal
 
 //Slicing from the end
 console.log(airline.slice(-2)); //al, slices from the end
-console.log(airline.slice(1, -1)); //AP Air Portuga    //the second paratemer is the ending index of the slicing method, here we have a negative value which means it cuts from the back.
+console.log(airline.slice(1, -1)); //AP Air Portuga    //the second parameter is the ending index of the slicing method, here we have a negative value which means it cuts from the back.
 
 //writing a function to check if the seat is a middle seat, considering that each row has 6 seats, 3 on each side.
 const checkMiddleSeat = function (seat) {
@@ -1113,7 +1300,7 @@ console.log(airline.toUpperCase()); //does not require any arguments
 
 console.log(airline.toLowerCase()); //does not require any arguments
 
-/////////////////////////Fix Capitalisation in name////////////////////////
+/////////////////////////Fix Capitalization in name////////////////////////
 
 const passenger = 'jOnas'; //We need Jonas
 
@@ -1138,15 +1325,15 @@ passengerC('aBiR');
 /////////////////////Check Email (comparing emails)////////////////////////
 
 const email = 'hello@jonas.io'; //the actual email
-const lEmail = '  Hello@Jonas.Io \n'; //"\n" is enter, which also coiunts as a white space //the email that is entered by the user while login, which is also valid
+const lEmail = '  Hello@Jonas.Io \n'; //"\n" is enter, which also counts as a white space //the email that is entered by the user while login, which is also valid
 
-const normalisedEmail = lEmail.toLowerCase().trim(); //login email first made into lower case then trimmed removing the white space in the beginning and the enter at the last
+const normalizedEmail = lEmail.toLowerCase().trim(); //login email first made into lower case then trimmed removing the white space in the beginning and the enter at the last
 
-//in ES6 there is also trimStart(), used to trim whitespaces from the beginning and trimEnd(), used to trim whitespaces from the end
+//in ES6 there is also trimStart(), used to trim white spaces from the beginning and trimEnd(), used to trim white spaces from the end
 
-console.log(normalisedEmail);
+console.log(normalizedEmail);
 
-console.log(email == normalisedEmail); //true
+console.log(email == normalizedEmail); //true
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -1171,12 +1358,13 @@ console.log(announcement);
 
 //replaceAll() method can also be used in the future to replace all the matching string values to the given values
 //console.log(announcement.replaceAll()('door', 'gate'));
+//replaceAll is now available
 
 //to change all the "door" to "gate", we can use regular expressions
 
 /////////////////////////////regular expressions///////////////////////////
 
-console.log(announcement.replace(/door/g, 'gate')); //"g" stands for global, changes all the occurences of the word "door" to "gate".
+console.log(announcement.replace(/door/g, 'gate')); //"g" stands for global, changes all the occurrences of the word "door" to "gate".
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -1214,7 +1402,7 @@ console.log(planes.endsWith('o')); //true
 
 ///////////////////////////////////////////////////////////////////////////
 
-///////////////////////////practice evercise///////////////////////////////
+///////////////////////////practice exercise///////////////////////////////
 
 //to check if the baggage of a certain passenger is allowed  on the plane
 
@@ -1223,7 +1411,7 @@ const checkBaggage = function (items) {
   if (baggage.includes('knife') || baggage.includes('gun')) {
     console.log('Your baggage is not allowed on the plane');
   } else {
-    console.log('Your baggage is checked and is alowed in the plane');
+    console.log('Your baggage is checked and is allowed in the plane');
   }
 };
 
@@ -1302,13 +1490,13 @@ capitalizeName('jonas schedtmann');
 const message = 'Go to gate 23!';
 
 /////////////////////////////////////////////////////////////
-//padStart(x,"y"), adds (x-length of the string) amount of "y" characters in the front of the string, without giving the "y" argument to the method, we will add (x-length of the string) amount of whitespaces.
+//padStart(x,"y"), adds (x-length of the string) amount of "y" characters in the front of the string, without giving the "y" argument to the method, we will add (x-length of the string) amount of white spaces.
 console.log(message.padStart(25, '+'));
 
 console.log('Abir'.padStart(23, '@ '));
 
 /////////////////////////////////////////////////////////////
-//padEnd(x,"y"), adds (x-length of the string) amount of "y" characters at the end of the string, without giving the "y" argument to the method, we will add (x-length of the string) amount of whitespaces.
+//padEnd(x,"y"), adds (x-length of the string) amount of "y" characters at the end of the string, without giving the "y" argument to the method, we will add (x-length of the string) amount of white spaces.
 
 console.log(message.padEnd(35, '+'));
 

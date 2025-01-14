@@ -1,5 +1,31 @@
 'use strict';
 
+//************  Topic Covered In This Module ************//
+//  !TOPIC 1: Constructor Functions and the "new" Operator
+//    !1.1: when we call the function using the "new" Operator
+//      !1.1.a: instanceof
+//  !Topic 2: Prototypes
+//    !2.1: isPrototypeOf
+//  !TOPIC 3: Prototypal Inheritance on Built-In Objects
+//    !3.1: prototype of a function
+//    !3.2: prototypes and the DOM tree
+//  !TOPIC 4: ES6 Classes
+//    !4.1: IMPORTANT NOTES ON CLASSES
+//    !4.2: Setters and Getters
+//  !TOPIC 5: static methods
+//    !5.1: writing a static method for the "Person constructor" function
+//    !5.2: static method in a class
+//  !TOPIC 6: Object.create()
+//  !TOPIC 7: Inheritance between 'CLASSES': Constructor Functions
+//    !7.1: Inheritance in Constructor Functions
+//    !7.2: Inheritance between 'CLASSES':ES6 CLASSES
+//    !7.3: Inheritance between 'CLASSES': Object.create
+//  !TOPIC 8: EXAMPLES OF CLASSES
+//    !8.1: ENCAPSULATION
+//    !8.2: PRIVATE CLASS FIELDS AND METHODS
+//    !8.3: Chaining Methods
+//*******************************************************/
+
 //In modern JS there are two major paradigms: Object Oriented Programming and Functional Programming
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -14,15 +40,15 @@
 
 /////////////////////////////////////////////////////////////////////////
 
-/////////////////Constructor Functions and the "new" Operator/////////////
+//*TOPIC 1: Constructor Functions and the "new" Operator/////////////
 
 //we use constructor function to build an object using function
 
-//a "constructor" function is a completely normal function, the only difference is that we call the constructor function with the "new" keyword
+//!a "constructor" function is a completely normal function, the only difference is that we call the constructor function with the "new" keyword
 
 //IN OOP, CONSTRUCTOR FUNCTION ALWAYS STARTS WITH A CAPITAL LETTER (we follow that convention, other built-in constructors like Array, Map, etc also follow that convention)
 
-//we can use function expression and function declaration as function constructor , but we cannot use arrow function it does not have the "this" keyword (we need the "this" keyword here)
+//!we can use function expression and function declaration as function constructor , but we cannot use arrow function it does not have the "this" keyword (we need the "this" keyword here)
 
 const Person = function (
   firstName,
@@ -36,35 +62,40 @@ const Person = function (
 
   //////////////setting properties to the object//////////////////
 
-  //INSTANCE PROPERTIES (as these will be available on all the instances/ objects that are created through this constructor function)
+  //!INSTANCE PROPERTIES (as these will be available on all the instances/ objects that are created through this constructor function)
 
   this.firstName = firstName;
   this.birthYear = birthYear;
 
   ///////////////////////methods////////////////////////
 
-  //it is a bad practice to create methods inside of a constructor function
+  //?it is a bad practice to create methods inside of a constructor function
 
-  //if we want to create a large number of objects/ instances of this constructor function, we would end up creating a large number of copies of the methods inside the constructor function
+  //?if we want to create a large number of objects/ instances of this constructor function, we would end up creating a large number of copies of the methods inside the constructor function
 
   // this.calcAge = function () {
-  //   console.log(2037 - this.bitrhYear);
+  //   console.log(2037 - this.birthYear);
   // };
 
   //to solve this problem, we use prototypes and prototypal inheritance
 };
 
-///////////when we call the function using the "new" Operator/////////
+//*1.1: when we call the function using the "new" Operator/////////
 
-//1. An empty object ({}) is created
+//!1. An empty object ({}) is created
 
-//2. Function is called, the "this" keyword is set to the newly created object (in the execution context of the "Person" function, the "this" keyword will point to the new object created in step 1)
+//!2. Function is called, the "this" keyword is set to the newly created object (in the execution context of the "Person" function, the "this" keyword will point to the new object created in step 1)
 
-//3. This newly created object is linked to a prototype (using the "__proto__" property that is created on the object)
+//!3. This newly created object is *linked* to a prototype (using the "__proto__" property that is created on the object)
 
-//4. *****The constructor function automatically returns the object created in the beginning*****
+//!4. *****The constructor function automatically returns the object created in the beginning*****
 
-//////////////////////////////////////////////////////////////////////
+//? step1: {}
+//? step2: this->{}
+//? step3: this.__proto__=Person.prototype  //when we add something in the Person.prototype we can access it from all the instances of Person Constructor function, this is prototypal inheritance
+//? return this
+
+//***************************************************************/
 
 //we call the constructor function "Person" using the "new" keyword
 
@@ -78,17 +109,17 @@ const matilda = new Person('Matilda', 2017);
 
 console.log(matilda); //Person {firstName: 'Matilda', birthYear: 2017}
 
-//objects created from "classical classes" are called "instance" of that class
+//!objects created from "classical classes" are called "instance" of that class
 
-//JS does not really have classes
+//!JS does not really have classes
 
-//here we have created objects using a constructor function and a class, Constructor functions have been used in JS since the beginning to simulate classes
+//!here we have created objects using a constructor function and a class, Constructor functions have been used in JS since the beginning to simulate classes
 
-//so we can still say "jonas" and "matilda" are "instances" of the constructor function "Person"
+//!so we can still say "jonas" and "matilda" are "instances" of the constructor function "Person"
 
 /////////////operator we can use to test for that/////////////
 
-//"instanceof" can be used to check if the object is an instance of a constructor function
+//* 1.1.a: instanceof can be used to check if the object is an instance of a constructor function
 
 console.log(jonas instanceof Person); //true
 
@@ -97,17 +128,18 @@ const jay = 'Jay';
 console.log(jay instanceof Person); //false as 'jay' was not created using the constructor function "Person"
 
 //*********************************************** */
-//Function constructors are not a feature of the JS, it is a pattern that has been developed by other developer and now everyone uses this
+
+//?Function constructors are not a feature of the JS, it is a pattern that has been developed by other developer and now everyone uses this
 
 //////////////////////////////////////////////////////////////////////
 
-////////////////////////////Prototypes////////////////////////////////
+//****************************Topic 2: Prototypes////////////////////////////////
 
 //*****************************************************************
-//each and every function in JS automatically has a property called "prototype", that includes constructor function
+//!each and every function in JS automatically has a property called "prototype", that includes constructor function
 //*****************************************************************
 
-//every object created using a constructor function will have access to all the methods and properties that we define in the prototype property of the constructor function, in our case:  Person.prototype
+//!every object created using a constructor function will have access to all the methods and properties that we define in the prototype property of the constructor function, in our case:  Person.prototype
 
 console.log(Person.prototype); // we see the calAge object there
 
@@ -118,19 +150,19 @@ Person.prototype.calcAge = function () {
 
 jonas.calcAge(); //46
 
-//we can now use the calcAge method on the objects created using the Person constructor function, even though it was not in the object itself
+//!we can now use the calcAge method on the objects created using the Person constructor function, even though it was not in the object itself
 
-//objects have access to calcAge due to "prototypal inheritance"
+//!objects have access to calcAge due to "prototypal inheritance"
 
-//now only one copy of the calcAge function exists, all the objects created using the "Person" constructor function can reuse the calcAge function on themselves, so the "this" keyword is set to the object that is calling the method
+//?now only one copy of the calcAge function exists, all the objects created using the "Person" constructor function can reuse the calcAge function on themselves, so the "this" keyword is set to the object that is calling the method
 
-//ANY OBJECT ALWAYS HAS ACCESS TO THE METHODS AND PROPERTIES FROM ITS PROTOTYPE
+//?ANY OBJECT ALWAYS HAS ACCESS TO THE METHODS AND PROPERTIES FROM ITS PROTOTYPE
 
-//each object has a special property called "__proto__"
+//?each object has a special property called "__proto__"
 
 //we can confirm that using "__proto__"
 
-//the "__proto__" property is created at the 3rd step of using the "new" operator, it links the empty new object to the "__proto__" property, and then sets its value to the prototype property of the function that is being called (sets the "__proto__" property of the object to the prototype property of the constructor function) this is how JS knows internally that the "jonas" object is connected to the Person.prototype
+//!the "__proto__" property is created at the 3rd step of using the "new" operator, it links the empty new object to the "__proto__" property, and then sets its value to the prototype property of the function that is being called (sets the "__proto__" property of the object to the prototype property of the constructor function) this is how JS knows internally that the "jonas" object is connected to the Person.prototype
 
 //we can check the "jonas" object to find that it has the "__proto__" property
 
@@ -139,12 +171,19 @@ console.log(jonas.__proto__); //prototype property of the constructor function "
 console.log(jonas);
 
 //************************************************************** */
-//jonas object's prototype is the prototype property of the Person constructor function
+//!jonas object's prototype is the prototype property of the Person constructor function
+//? "__proto__" sets the prototype of that Object
+//? Person has a property called "prototype", that is inherited by all the instances of Person Constructor function and becomes their prototype.
+//? Person 's prototype is the prototype property of Object
+// console.log(Object.prototype.isPrototypeOf(Person));// true
+//? "prototype" property is not the prototype of an object/constructor function
 //************************************************************** */
 
 console.log(jonas.__proto__ === Person.prototype); //true
 
-//Person.prototype is not the prototype of Person constructor function, *****it is used as the prototype of all the objects that are created using the Person constructor function*****
+//!Person.prototype is not the prototype of Person constructor function, *****it is used as the prototype of all the objects that are created using the Person constructor function*****
+
+//******************** 2.1: isPrototypeOf**************** */
 
 //we can also use "isPrototypeOf" to check if an object has the prototype that we are calling this method on (here: Person.prototype) as its prototype
 
@@ -158,7 +197,7 @@ Person.prototype.species = 'Homo Sapiens';
 
 console.log(jonas.species); //Homo Sapiens
 
-//when we see the "jonas" object, we see that "species" property is not really directly in the object, it is not its own peoperty, OWN PROPERTIES ARE ONLY THE ONES THAT ARE DECLARED DIRECTLY IN THE OBJECT ITSELF, not including the inherited property
+//!when we see the "jonas" object, we see that "species" property is not really directly in the object, it is not its own property, OWN PROPERTIES ARE ONLY THE ONES THAT ARE DECLARED DIRECTLY IN THE OBJECT ITSELF, not including the inherited property
 
 //checking own property
 
@@ -170,27 +209,29 @@ console.log(jonas);
 
 /////////////////////////////////////////////////////////////////////////
 
-/////////////////Prototypal Inheritance on Built-In Objects//////////////
+//************TOPIC 3: Prototypal Inheritance on Built-In Objects//////////////
 
 //prototype of ("jonas" object's prototype)
 
-console.log(jonas.__proto__.__proto__); //prototype property of the built-in constructor function "Object()"
+console.log(jonas.__proto__.__proto__); //prototype property of the built-in constructor function "Object()", that is not inherited but is built-in
 
-console.log(jonas.hasOwnProperty('firstName')); //this works as "hasOwnProperty"  is in the prototype of ("jonas" object's prototype's prototype) i.e. "Object()"
+console.log(jonas.hasOwnProperty('firstName')); //this works as the property,"hasOwnProperty" is in the prototype of ("jonas" object's prototype's prototype) i.e. "Object()"
 
 console.log(jonas.__proto__.__proto__.__proto__); //null as we have reached the top of the prototype chain
 
 console.log(Person.prototype.constructor); //".constructor" property points back to the constructor function (Person) itself
 
 //******************my test*********************
-// console.log(Person.__proto__); //native code
+console.log(Person.__proto__); //native code
 
-// console.log(Person.constructor);//native code
+console.log(Person.constructor); //native code
 //***********************************************
 
-//////////////////////prototype of a function//////////////////////////
+//*3.1: prototype of a function//////////////////////////
 
-//any function is also an object, every object has a prototype
+//?any function is also an object, every object has a prototype
+
+//The console. dir() static method displays a list of the properties of the specified JavaScript object
 
 console.dir(x => x + 1); //anonymous() , function is also an object and so it will also have a prototype, this is just any function, and as this is a function, it inherits all the function methods, i.e. we can see all the function methods in its prototype
 
@@ -210,23 +251,23 @@ console.log(arr.__proto__ === Array.prototype); //true
 
 console.log(arr.__proto__.__proto__); //object.prototype as arr.__proto__ / Array.prototype is also an object
 
-//how any array method is defined in JS
+//?how any array method is defined in JS
 //Array.prototype.filter()
 
-//If we want to create our own Array method, that all the arrays inherit
+//!If we want to create our own Array method, that all the arrays inherit
 
-//our own Array method that returns an array with just the unique values
+//!our own Array method that returns an array with just the unique values
 // Array.prototype.unique = function () {
 //   return [...new Set(this)];
 // };
 
 // console.log(arr.unique());
 
-//extending the prototype of a built-in object is not a good practice
-//one of the reasons is that the next version of JS might have a method/property the same name as of the method/property that we declare by ourselves in the prototype of that built-in object, then that new method will be used which can have a different functionality
-//also not a good practice when working in a team
+//?extending the prototype of a built-in object is not a good practice
+//?one of the reasons is that the next version of JS might have a method/property the same name as of the method/property that we declare by ourselves in the prototype of that built-in object, then that new method will be used which can have a different functionality
+//?also not a good practice when working in a team
 
-////////////////////prototypes and the DOM tree//////////////////////////
+//*3.2: prototypes and the DOM tree//////////////////////////
 
 const h1 = document.querySelector('h1');
 
@@ -244,37 +285,44 @@ console.log(h1.__proto__.__proto__.__proto__.__proto__.__proto__.__proto__); //O
 
 /////////////////////////////////////////////////////////////////////////
 
-////////////////////////////ES6 Classes//////////////////////////////////
+//********************TOPIC 4: ES6 Classes//////////////////////////////////
 
-//allows us to do the exact same thing but with a nicer syntax
+//?allows us to do the exact same thing but with a nicer syntax
 
-//the goal of adding classes to JS was to make more sense to people coming from different languages
+//?the goal of adding classes to JS was to make more sense to people coming from different languages
 
-//just like functions we have:
+//?just like functions we have:
 
-//////////class expression//////////
+//*class expression//////////
 // const PersonCl = class {};
 
-/////////class declaration//////////
+//*class declaration//////////
 // class PersonCl {}
 
-//this is because classes are a special type of functions in JS
+//!this is because classes are a special type of functions in JS
 
 class PersonCl {
-  //a method of this class, similar to a constructor function, whenever we create a new object of this class, this constructor is called
+  //!a method of this class, similar to a constructor function, whenever we create a new object of this class, this constructor is called
 
-  //needs to be called constructor
+  //!needs to be called constructor
   constructor(firstName, birthYear) {
     //the "this" keyword points to the object that is created using the PersonCl
+    //!INSTANCE PROPERTIES (WILL BE AVAILABLE TO ALL THE INSTANCES THAT WE CREATE ON THIS CLASS)
     this.firstName = firstName;
     this.birthYear = birthYear;
+    this.testPrintName = function () {
+      //this function that is declared inside of the constructor is also in the object, and on creating new objects we are making copies of the function
+      console.log(this.firstName);
+    };
   }
 
-  //methods / properties can be written inside of the class (but these methods will not be in the object but will be in the prototype of the class)
+  //!methods & properties can be written inside both inside and outside of the constructor of the class, in a class (but methods written outside the constructor function will not be in the object but will be in the prototype of the class, while the properties will be in the object no matter where it is written)
 
-  //methods / properties outside of the constructor function is added to the prototype property of the class, (prototype of the objects)
+  //!methods outside of the constructor function is added to the prototype property of the class, (prototype of the objects)
 
-  //AND SO THESE METHODS ARE CALLED INSTANCE METHODS/ INSTANCE PROPERTIES
+  test = 3000; //! these properties will be in the object
+
+  //!INSTANCE METHODS (WILL BE AVAILABLE ON ALL THE INSTANCES THAT WE CREATE ON THIS CLASS)
   calcAge() {
     console.log(2037 - this.birthYear);
   }
@@ -285,10 +333,14 @@ class PersonCl {
   // }
 }
 
-//when we create a new instance of the class PersonCl the constructor() inside of the class is called and then everything goes as similar to calling the constructor function, *****it is as if we call the class as the constructor function, but it is the cosntructor() inside of the class that works as the constructor function,*****  methods / properties inside of the constructor() is added to the object
+//?when we create a new instance of the class PersonCl the constructor() inside of the class is called and then everything goes as similar to calling the constructor function, *****it is as if we call the class as the constructor function, but it is the constructor() inside of the class that works as the constructor function,*****  methods / properties inside of the constructor() is added to the object
 const jessica = new PersonCl('Jessica', 1996);
 
-console.log(jessica);
+console.log(jessica); //we can see both testPrintName and test
+console.log(jessica.hasOwnProperty('firstName'));
+console.log(jessica.hasOwnProperty('testPrintName')); //true, declared inside of the constructor function, is in the object and not in the prototype property
+console.log(jessica.hasOwnProperty('test')); //true, it is in the object
+console.log(jessica.hasOwnProperty('calcAge')); //false, it is in the prototype
 
 //calling the calcAge prototype function
 jessica.calcAge(); //41
@@ -296,74 +348,74 @@ jessica.calcAge(); //41
 //the "__proto__" of the object jessica is linked to PersonCl.prototype
 console.log(jessica.__proto__ === PersonCl.prototype); //true
 
-//we can also add a method / property manually to the PersonCl class prototype property
+//?we can also add a method / property manually to the PersonCl class prototype property
 PersonCl.prototype.greet = function () {
   console.log(`Hey ${this.firstName}`);
 };
 
 jessica.greet(); //Hey Jessica
 
-/////////////////////IMPORTANT NOTES ON CLASSES//////////////////////
+//*4.1: IMPORTANT NOTES ON CLASSES//////////////////////
 
-//classes are NOT hoisted (cannot be used before they are declared in the code)
+//!classes are NOT hoisted (cannot be used before they are declared in the code)
 
-//just like functions, classes are also first-class citizens (we can pass them into functions and return from functions)
+//!just like functions, classes are also first-class citizens (we can pass them into functions and return from functions)
 
 //**************************************************************
-//If any programming language has the ability to treat functions as values, to pass them as arguments and to return a function from another function then it is said that programming language has First Class Functions and the functions are called as First Class Citizens in that programming language.
+//?If any programming language has the ability to treat functions as values, to pass them as arguments and to return a function from another function then it is said that programming language has First Class Functions and the functions are called as First Class Citizens in that programming language.
 //**************************************************************
 
-//classes are executed in strict mode (even if we did not activate strict mode for the entire script, all the code in the class will be executed in strict mode)
+//?classes are executed in strict mode (even if we did not activate strict mode for the entire script, all the code in the class will be executed in strict mode)
 
 /////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////
 
-////////////////////////Setters and Getters//////////////////////////////
+//*4.2: Setters and Getters//////////////////////////////
 
-//getters and setters are a feature that is common for all objects in JS
+//?getters and setters are a feature that is common for all objects in JS
 
-//setter and getter properties are called as "accessor properties"
+//!setter and getter properties are called as "accessor properties"
 
-//while the other normal properties are called as "data properties"
+//!while the other normal properties are called as "data properties"
 
 //Getters and Setters are functions that can be used to get or set values, but on the outside they still look like regular properties
 
-///////////////////////object literal/////////////////////////
+//*object literal/////////////////////////
 const account = {
   owner: 'jonas',
   movements: [200, 530, 120, 300],
 
   //it is not mandatory to have both getters and setters in a class together
 
-  //getter "get"
+  //!getter "get"
   get latest() {
     return this.movements.slice(-1).pop();
   },
 
-  //setter "set"
+  //!setter "set"
   set latest(mov) {
     //any setter method will have exactly one parameter (since, we can set only one value using the "=")
     this.movements.push(mov);
   },
 };
 
-console.log(account.latest); //we dont call it like a method but write it like a property
+console.log(account.latest); //!we don't call it like a method but write it like a property
 
-//if latest was a regular method and not a setter
+//!if latest was a regular method and not a setter
 // account.latest(50);
 
-//setters are also like regular parameters
+//!setters are also like regular parameters
 account.latest = 50;
 
 //classes also has getters and setters and they also work the same way
 
-/////////////////////////////class///////////////////////////////
+//*class///////////////////////////////
 
 class PersonClass {
   constructor(fullName, birthYear) {
     //***********************************
-    //"this" points to the object calling the class, this.fullname is (e.g.- jonas.fullname) where fullname is the "setter", and not just a property(variable) anymore that we are making equal to fullName (right side of "=", that we pass to the class and gets passed to the constructor)
+    //!"this" points to the object calling the class, this.fullName is (e.g.- jonas.fullName) where fullName is the "setter", and not just a property(variable) anymore that we are making equal to fullName (right side of "=", that we pass to the class and gets passed to the constructor)
     this.fullName = fullName;
     //***********************************
     this.birthYear = birthYear;
@@ -382,21 +434,24 @@ class PersonClass {
     return 2037 - this.birthYear;
   }
 
-  //getters and setters are very useful for data validation
+  //!getters and setters are very useful for data validation
 
-  //setter with a validation property
+  //!!!!!!!!!!!!!!IMPORTANT!!!!!!!!!!!!!!
 
-  //we are here creating setter for a property name that already exists "fullName" and so whenever we set the fullName on the "this" keyword, (each time "this.fullName = fullName;" is executed in the constructor()) the setter is going to be executed, and then the fullName will be passed as an argument to this setter.
+  //!EXAMPLE: setter with a validation property
+
+  //!we are here creating setter for a property name that already exists "fullName" and so whenever we set the fullName on the "this" keyword, (i.e. "this.fullName = fullName;" is executed in the constructor()) the setter is going to be executed, and then the fullName will be passed as an argument to this setter.
   set fullName(name) {
     // console.log(name);
 
     //*******************************************************
-    // if (name.includes(' ')) this.fullName = name; //recursion call that has no end (no corner case), so the call stack size exceeds (this.fullname calls the setter function again, and passes the name as the argument)
+    //! if (name.includes(' ')) this.fullName = name; //recursion call that has no end (no corner case), so the call stack size exceeds (this.fullName calls the setter function again, and passes the name as the argument)
+    //!this is because here as well we are trying to set the fullName property on the this keyword, that in turn calls the setter again.
     //*******************************************************
-    // this line gives a cryptic error "Maximum call stack size exceeded" as there is a conflict as both the constructor and the setter are trying to set the exact same property name, what we do is create a new property (variable) name using "_" before the fullName as "_fullName" (this is a convention and not a JS feature, "_fullName" is a different variable name to avoid naming conflict)
+    //! this line gives a cryptic error "Maximum call stack size exceeded" as there is a conflict as both the constructor and the setter are trying to set the exact same property name, what we do is create a new property (variable) name using "_" before the fullName as "_fullName" (this is a convention and not a JS feature, "_fullName" is a different variable name to avoid naming conflict)
 
     if (name.includes(' ')) this._fullName = name;
-    //but after using a new variable, the property that has the full name is "_fullName",  jessica.fullName is "undeifined" as it has nothing, so we make a getter for the fullname property to return the "_fullName"
+    //!but after using a new variable, the property that has the full name is "_fullName",  jessica.fullName is "undefined" as it has nothing, so we make a getter for the fullName property to return the "_fullName"
     else alert(`${name} is not a full name`);
   }
 
@@ -411,44 +466,45 @@ const jess = new PersonClass('Jess Wittek', 1996);
 //using the getter "age"
 console.log(jess.age);
 
-//getter is just like any other regular method that we set on the prototype property of the class, it will also look like a property in the prototype porperty of the class while we have it as a method as well
+//!getter is just like any other regular method that we set on the prototype property of the class, it will also look like a property of the class while we have it as a method as well
 
 console.log(jess); //  PersonClass {first....}
 //                  .  [[Prototype]]
 //                         age: (...), {has dots as it will only be calculated once we click on the dots} [as a property]
 //                       get age: ƒ age() [as a method]
 
-//getters and setters are very useful for data validation
+//!getters and setters are very useful for data validation
 
-console.log(jess.fullName); //fullName is not the property but the getter
-//returns the value in the property "_fullName", as we have setter with the name fullName for name validation and save the name in "_fullName" and getter with the name fullName to get the value in the "_fullName"
+console.log(jess.fullName); //?fullName is not the property but the getter
+//?returns the value in the property "_fullName", as we have setter with the name fullName for name validation and save the name in "_fullName" and getter with the name fullName to get the value in the "_fullName"
 
+console.log(jess.__proto__); //?we can see all the getters and setters here as methods in the prototype of jess, so they are added in the prototype Property of the class PersonClass
 /////////////////////////////////////////////////////////////////////////
 
-////////////////////////static methods///////////////////////////////////
+//*TOPIC 5: static methods///////////////////////////////////
 
 //the "from" method, that converts any array like structure to a real array
 console.log(Array.from(document.querySelectorAll('h1'))); //querySelectorAll returns a nodeList and from converts it to an array
 
 //*****************************************************************
-//the "from" method attached to the "Array constructor" and not to the prototype property of the "Array constructor"
+//!the "from" method attached to the "Array constructor" and not to the prototype property of the "Array constructor"
 //*****************************************************************
 
-//so we cannot use the "from" method on any array
-//all the arrays do not inherit "from" method, as it is not on their prototype
+//?so we cannot use the "from" method on any array, as it is not on the prototypal chain but is in the Array Constructors
+//?all the arrays do not inherit "from" method, as it is not on their prototype
 
 // console.log([1, 2, 3].from()); //is not a function
 
 //therefore Array.from() where "from()" is a simple function that is attached to the "Array constructor", so that the developers know that it is related to arrays
-//WE ALSO SAY THAT "from" METHOD IS IN THE ARRAY NAMESPACE
+//?WE ALSO SAY THAT "from" METHOD IS IN THE ARRAY NAMESPACE
 
-//from() is a static method in the Array constructor
+//!from() is a static method in the Array constructor
 
-//Number.parseFloat(12);//"parseFloat" is another static method in the "Number constructor"
+//!Number.parseFloat(12);//"parseFloat" is another static method in the "Number constructor"
 
-//"parseFloat" is not available to numbers but only on the "Number constructor"
+//?"parseFloat" is not available to numbers but only on the "Number constructor"
 
-//////writing a static method for the "Person constructor" function///////
+//*5.1: writing a static method for the "Person constructor" function///////
 
 //static method
 Person.hey = function () {
@@ -460,9 +516,9 @@ Person.hey = function () {
 
 Person.hey(); //hey there
 
-//we cannot call hey() method on an object of the Person consturctor as the object does not inherit it in its prototype
+//?we cannot call hey() method on an object of the Person constructor as the object does not inherit it in its prototype
 
-/////////////////static method in a class//////////////////////////////
+//*5.2: static method in a class//////////////////////////////
 
 class DemoClass {
   constructor(fullName, birthYear) {
@@ -486,44 +542,52 @@ class DemoClass {
 
   ///////////////////////////////////
 
-  //////////Static method////////////
+  //*Static method////////////
 
   static hey() {
     console.log('Hey there');
     console.log(this); //"this" keyword points to the entire class
   }
-  //////////////////////////////////
+  //*********************** */
+
+  //*Static Properties////////
+
+  static test = 3000;
+
+  //*********************** */
 }
 
+console.log(DemoClass.test);
 DemoClass.hey();
 
 const obj = new DemoClass('demo', 1990);
 
 // obj.hey(); //is not a function
+// console.log(obj.test); //undefined
 
-//these static methods are not available to instances and sometimes they are still useful to implement some kind of helper function about a class or about a constructor function
+//!these static methods are not available to instances and sometimes they are still useful to implement some kind of helper function about a class or about a constructor function
 
 /////////////////////////////////////////////////////////////////////////
 
-/////////////////////////Object.create()/////////////////////////////////
+//*TOPIC 6: Object.create()/////////////////////////////////
 
-//works is a different way than the constructor functions or the classes
+//?works is a different way than the constructor functions or the classes
 
-//there is still the idea of prototypal inheritance, however there are no "prototype properties" involved and also no "constructor functions" and no "new" operator
+//!there is still the idea of prototypal inheritance, however there are no "prototype properties" involved and also no "constructor functions" and no "new" operator
 
 //instead we use object.create to manually set the prototype of an object to any other object that we want
 
 const PersonProto = {
-  //this object will be the prototype of all the objects we use "Object.create(PersonProto)" on
+  //?this object will be the prototype of all the objects we use "Object.create(PersonProto)" on
   calcAge() {
     console.log(2037 - this.birthYear);
   },
 
   //we declare a method to set properties to the object
 
-  //WE CAN HAVE A METHOD LIKE THIS IN ANY OTHER OBJECT LITERAL, this is made to make setting properties of objects more programatic
+  //!WE CAN HAVE A METHOD LIKE THIS IN ANY OTHER OBJECT LITERAL, this is made to make setting properties of objects more programatic
 
-  //looks like the constructor function / constructor(), but has nothing to do with the constructor function / constructor() as we are not using the "new" operator to call this
+  //!looks like the constructor function / constructor(), but has nothing to do with the constructor function / constructor() as we are not using the "new" operator to call this
   init(firstName, birthYear) {
     console.log(this); //here the "this" keyword also points to the object we use to call this function
 
@@ -536,10 +600,10 @@ const PersonProto = {
 
 const steven = Object.create(PersonProto); //we pass the object inside of the Object.create() we want to be the prototype of the new object
 
-//what we are doing here is linking the "__proto__" of steven to prototype property of PersonProto
+//!what we are doing here is linking the "__proto__" of steven to prototype property of PersonProto
 
 //****************************************************************** */
-//" Object.create(PersonProto)" returns a brand new object that will be linked to the prototype we passed inside of the Object.create
+//!" Object.create(PersonProto)" returns a brand new object that will be linked to the prototype we passed inside of the Object.create
 //****************************************************************** */
 
 //the linkage of the newly created object to the Object we want to make it as its prototype happens through (".__proto__")
@@ -563,25 +627,26 @@ console.log(steven.__proto__ === PersonProto); //true
 
 const sarah = Object.create(PersonProto);
 
-//init() and calcAge() both are in the prototype of the sarah object and steven object and so we can call these methods on sarah and steven
+//!init() and calcAge() both are in the prototype of the sarah object and steven object and so we can call these methods on sarah and steven
 sarah.init('Sarah', 1979);
 sarah.calcAge();
 
-//WE USE Object.create() IN INHERITANCE BETWEEN CLASSES ("Constructor functions")
+//!WE USE Object.create() IN INHERITANCE BETWEEN CLASSES ("Constructor functions")
 
 /////////////////////////////////////////////////////////////////////////
 
-//////////Inheritance between 'CLASSES': Constructor Functions///////////
+//*TOPIC 7: Inheritance between 'CLASSES' //////////////////////////////
+//*7.1: Inheritance in Constructor Functions///////////
 
-//we use the word "class" to make it easier to understand, we know that there is nothing like the classes as we see in classical OOP, in JS
+//?we use the word "class" to make it easier to understand, we know that there is nothing like the classes as we see in classical OOP, in JS
 
-//in "real inheritance",  where one class "child" inherits from another class "Parent". Unlike in prototype inheritance, where objects inherit properties and methods from its prototype
+//?in "real inheritance",  where one class "child" inherits from another class "Parent". Unlike in prototype inheritance, where objects inherit properties and methods from its prototype
 
-//we have specific properties / methods for the child class, the child class also inherits properties and methods from its parent class
+//?we have specific properties / methods for the child class, the child class also inherits properties and methods from its parent class
 
 ////////Parent "class"////////
 
-//we will use the "Person" constructor function that is declared in the line 27, as the parent "class" / constructor function
+//we will use the "Person" constructor function that is declared on the top, as the parent "class" / constructor function
 
 //it has the "calcAge" method in its prototype property
 
@@ -601,35 +666,39 @@ const Student = function (firstName, birthYear, course) {
 
   //what if we call the person as a function
 
-  // Person(firstName, birthYear); //we are now calling the function constructor function as a regular function, and so therefore as this is a regular function call, the "this" keyword is set to "undefined" in a regular function call,so we get the error Cannot set properties of undefined (setting 'firstName')
+  // Person(firstName, birthYear); //?we are now calling the function constructor function as a regular function, and so therefore as this is a regular function call, the "this" keyword is set to "undefined" in a regular function call,so we get the error Cannot set properties of undefined (setting 'firstName')
 
-  //so we need to manually set the "this" keyword
+  //!so we need to manually set the "this" keyword
 
-  //to do this we use the "call" method, where the first argument is set as the "this" keyword to the function we are calling, and the other arguments passed except the first argument is passed to the function in the same order
-  Person.call(this, firstName, birthYear); //"this" here is the new object of the Student constructor function, it is that new empty object (in the beginning) where we want to set the firstName and birthYear property
+  //!to do this we use the "call" method, where the first argument is set as the "this" keyword to the function we are calling, and the other arguments passed except the first argument is passed to the function in the same order
+  Person.call(this, firstName, birthYear); //!"this" here is the new object of the Student constructor function, it is that new empty object (in the beginning) where we want to set the firstName and birthYear property
 
   this.course = course; // additional property in student compared to "Person"
 };
 
-//we want Student class to be the child class and the Person class to be the parent class
+//?we want Student class to be the child class and the Person class to be the parent class
 
-//what we want to do is to link the "__proto__" of the prototype property of the Student(Student.prototype) to the prototype property of Person (i.e.- Person.prototype),[look in notes for details] we create this link manually using Object.create()
+//!what we want to do is to link the "__proto__" of the prototype property of the Student(Student.prototype) to the prototype property of Person (i.e.- Person.prototype),[look in notes for details] we create this link manually using Object.create()
 
 //******************************************* */
-//we do this exactly at this point of the code, we create the connection here before we add anymore methods / properties to the prototype property of Student, as Object.create() will return an empty object and at this moment, Student.prototype is empty, and onto that empty object, we can then add method, if we had already added methods, Object.create()'s returned empty object will overwrite the already added methods
+//!we do this exactly at this point of the code, we create the connection here before we add anymore methods / properties to the prototype property of Student, as Object.create() will return an empty object and at this moment, Student.prototype is empty, and onto that empty object, we can then add method, if we had already added methods, Object.create()'s returned empty object will overwrite the already added methods
 
 Student.prototype = Object.create(Person.prototype); //we pass the object inside of the Object.create() we want want to link the "_proto__" of the Student.prototype with.
 
 //************************************************
-//when we do this we make the "__proto__" property of the Student.prototype point to the Person.prototype
+//?when we do this we make the "__proto__" property of the Student.prototype point to the Person.prototype
 //************************************************
 
 //****************************** */
-//why do we need Object.create()
+//!why do we need Object.create()
 
-// Student.prototype = Person.prototype; //this does not work at all, as this does not create prototype chain, rather it makes the prototype property of Student as the Person.prototype, objects of Student have Person.prototype as their prototype
+// Student.prototype = Person.prototype; //!this does not work at all, as this does not create prototype chain, rather it makes the prototype property of Student as the Person.prototype, objects of Student have Person.prototype as objects of Person
 
 // Student.__proto__ = Person.prototype; //this also does not work
+//? "__proto__" is a special property that exists on instances (not on constructors themselves) to link an object to its prototype.
+
+//!We can also do this, check more on this, what we are doing here is we are setting the "__proto__" property of the prototype of Student to the prototype property of Person, on other words making the prototype chain
+// Student.prototype.__proto__ = Person.prototype;
 
 Student.prototype.introduce = function () {
   console.log(`My name is ${this.firstName} and I study ${this.course}`);
@@ -640,7 +709,7 @@ const mike = new Student('Mike', 2020, 'Computer Science');
 console.log(mike);
 mike.introduce();
 
-mike.calcAge(); //this now works, even though calcAge is not in its (mike's) __proto__, i.e. in the Student.prototype, but as we have inherited the prototype property of the Person class to the Student class, Person.prototype is now in the prototype chain and calcAge() is present in the Person.prototype
+mike.calcAge(); //!this now works, even though calcAge is not in its (mike's) __proto__, i.e. in the Student.prototype, but as we have inherited the prototype property of the Person class to the Student class, Person.prototype is now in the prototype chain and calcAge() is present in the Person.prototype
 
 //////////////the whole prototype chain now///////////////
 
@@ -652,13 +721,13 @@ console.log(mike.__proto__); //Person
 
 console.log(mike.__proto__ === Student.prototype); //true here
 
-console.dir(Student.prototype.constructor); //ideally should point back to the Student constructor function but points to the Person constructor function
+console.dir(Student.prototype.constructor); //!ideally should point back to the Student constructor function but points to the Person constructor function
 
-//JS now thinks that the constructor of Student.prototype is Person, and the reason for that is that we set the prototype property of Student using Object.create(), constructor of Student.prototype is still Person
+//!JS now thinks that the constructor of Student.prototype is Person, and the reason for that is that we set the prototype property of Student using Object.create(), constructor of Student.prototype is still Person
 
-//sometimes its important to rely on this constructor property
+//!sometimes its important to rely on this constructor property
 
-////////////////we fix this//////////////
+//!we fix this//////////////
 
 Student.prototype.constructor = Student;
 
@@ -678,28 +747,29 @@ console.log(mike.__proto__.__proto__.__proto__.__proto__); //null
 
 /////////////////////////////////////////////////////////////////////////
 
-///////////////////Inheritance between 'CLASSES':ES6 CLASSES/////////////
+//*7.2: Inheritance between 'CLASSES':ES6 CLASSES/////////////
 
-//We want the PersonClass class (in the line 363)  as the "parent" class and the "StudentClass" class as the "child" class
+//!We want the PersonClass class (in the line 363)  as the "parent" class and the "StudentClass" class as the "child" class
 
-//we need two things to implement inheritance between classes, the "extends" keyword and the "super" function
+//!we need two things to implement inheritance between classes, the "extends" keyword and the "super" function
 
 class StudentClass extends PersonClass {
-  //extends links the prototypes behing the scenes, PersonClass becomes the parent class
+  //!extends links the prototypes behind the scenes, PersonClass becomes the parent class
 
   // //*****************************************
-  // //In a case where we do not need the constructor() (although we can still have the constructor() and the super() inside of it), the code will still work and the super() would be called  automatically without us calling it, and it will be called with the arguments(as many as it's  parent class' constructor() takes) passed while making the object of this class
+  // //!In a case where we do not need the constructor() (although we can still have the constructor() and the super() inside of it), the code will still work and the super() would be called automatically without us calling it, and it will be called with the arguments(as many as it's  parent class' constructor() takes) passed while making the object of this class
 
   // super(fullName,birthYear); //no need of writing this line of code as it is automatically called, just comment the while constructor() to check
   // //*****************************************
 
+  //!In a case where we need the constructor(), we need to call super.
   constructor(fullName, birthYear, course) {
     //course is an extra argument that was not in the ParentClass class constructor()
-    //we do not need to manually call the "PersonClass.call(this,firstName,birthYear)"", we can do the same using the super function
+    //!we do not need to manually call the "PersonClass.call(this,firstName,birthYear)", we can do the same using the super function
     //***************************************** */
     //ALWAYS NEEDS TO HAPPEN FIRST
-    //this call to the super function always needs to happen first, as this call to the super function is responsible for creating/initializing the "this" keyword in this sub-class
-    super(fullName, birthYear); //"super" is basically the constructor() of the parent class, we dont need to specify the name of the parent class again as we did that already
+    //!this call to the super function always needs to happen first, as this call to the super function is responsible for creating/initializing the "this" keyword in this sub-class
+    super(fullName, birthYear); //!"super" is basically the constructor() of the parent class, we don't need to specify the name of the parent class again as we did that already
     this.course = course;
   }
 
@@ -720,7 +790,7 @@ class StudentClass extends PersonClass {
 }
 
 //*************************************************
-//if we didn't have/(want to set) a third parameter (here: "course") we would not even need a constructor(), inside of the StudentClass  at all, in that case the super() will be called automatically [shown in line 690]
+//!if we didn't have/(want to set) a third parameter (here: "course") we would not even need a constructor(), inside of the StudentClass  at all, in that case the super() will be called automatically
 //*************************************************
 
 // const martha = new StudentClass('Martha Jones', 2012);
@@ -761,25 +831,24 @@ console.log(martha.__proto__.__proto__.__proto__.__proto__); //null
 
 /////////////////////////////////////////////////////////////////////////
 
-//////////////////Inheritance between 'CLASSES': Object.create///////////
+//*7.3: Inheritance between 'CLASSES': Object.create///////////
 
-//we use the "PersonProto" as the parent prototype and "studentProto" as the child prorotype, we want StudentProto to inherit directly form PersonProto
+//!we use the "PersonProto" as the parent prototype and "studentProto" as the child prototype, we want StudentProto to inherit directly form PersonProto
 
 //We do this first
 const StudentProto = Object.create(PersonProto); //we make the PersonProto as the prototype of StudentProto
 
-console.log(StudentProto); //for now an empty object, whose "_proto__" points to PersonProto
+console.log(StudentProto); //!for now an empty object, whose "__proto__" points to PersonProto
 
 // //*******************my testings***********************
-console.log(StudentProto.prototype); //undefined
+console.log(StudentProto.prototype); //undefined //?objects made using Object.create do not have the prototype property
 
 console.log(StudentProto.__proto__); //PersonProto, this shows that the "__proto__" property of the StudentProto is linked to the PersonProto making PersonProto as the prototype of StudentProto
 // //*****************************************************
 
 StudentProto.init = function (firstName, birthYear, course) {
-  //
   //we can use the init() form the PersonProto
-  PersonProto.init.call(this, firstName, birthYear); //we want to set the "this" keyword to the object of StudentProto calling init()
+  PersonProto.init.call(this, firstName, birthYear); //!we want to set the "this" keyword to the object of StudentProto calling init()
 
   this.course = course;
 };
@@ -817,7 +886,9 @@ console.log(jaya.__proto__.__proto__.__proto__.__proto__); //null
 
 /////////////////////////////////////////////////////////////////////////
 
-///////////////////////ANOTHER CLASS EXAMPLE/////////////////////////////
+//*TOPIC 8: EXAMPLES OF CLASSES***********************/
+
+/////////////////////////////ANOTHER CLASS EXAMPLE/////////////////////////////
 
 //we make the account objects we made in Bankist App programatically
 
@@ -833,7 +904,7 @@ class Account {
     console.log(`Thanks for opening an account, ${owner}`);
   }
 
-  //we built methods to interact with properties, these methods are PUBLIC INTERFACES to the objects and are also called API
+  //?we built methods to interact with properties, these methods are PUBLIC INTERFACES to the objects and are also called API
 
   //methods for deposits and withdraws
   deposit(val) {
@@ -841,7 +912,7 @@ class Account {
   }
 
   withdraw(val) {
-    this.deposit(-val); //we can call other methods from inside of a method (abstracts the fact that a withdrawl is a negative movement {acc1.movements.push(-140)}, "-" here is something the user of this object should not be caring about)
+    this.deposit(-val); //we can call other methods from inside of a method (abstracts the fact that a withdrawal is a negative movement {acc1.movements.push(-140)}, "-" here is something the user of this object should not be caring about)
   }
 
   //we do not want user to access approveLoan method
@@ -862,14 +933,14 @@ const acc1 = new Account('Jonas', 'EUR', 1111);
 
 console.log(acc1);
 
-//not a good idea to interact with properties like this
+//?not a good idea to interact with properties like this
 // //deposit
 // acc1.movements.push(250);
 
 // //withdraw
 // acc1.movements.push(-140);
 
-//its a lot better to create methods to interact with properties
+//?its a lot better to create methods to interact with properties
 
 //to deposit
 acc1.deposit(250);
@@ -877,25 +948,25 @@ acc1.deposit(250);
 ///to withdraw
 acc1.withdraw(140);
 
-//now  we are actually using the public interface (deposit and withdraw) that we built, these methods are the interface to the objects, and are also called API
+//?now we are actually using the public interface (deposit and withdraw) that we built, these methods are the interface to the objects, and are also called API
 
-//still theres is nothing stopping a user accessing the properties like movements, pins (pins should not be accessible from outside of the class), directly and introducing bugs
+//!still theres is nothing stopping a user accessing the properties like movements, pins (pins should not be accessible from outside of the class), directly and introducing bugs
 
-//WE NEED DATA ENCAPSULATION AND DATA PRIVACY as we no not want user to access certain properties and methods
+//?WE NEED DATA ENCAPSULATION AND DATA PRIVACY as we no not want user to access certain properties and methods
 
-////////////////////////ENCAPSULATION///////////////////////////////////
+//*8.1: ENCAPSULATION///////////////////////////////////
 
-// //Encapsulation means we want certain properties and methods private inside the class so that they are not accessible outside of the class, then the rest of the methods are basically exposed as a public interface (API)
+// //!Encapsulation means we want certain properties and methods private inside the class so that they are not accessible outside of the class, then the rest of the methods are basically exposed as a public interface (API)
 
-// //2 big reasons why we need DATA ENCAPSULATION and PRIVACY
+// //!2 big reasons why we need DATA ENCAPSULATION and PRIVACY
 
-// //1. To prevent code from outside of a class to accidentally manipulate data that is inside of a class
+// //!1. To prevent code from outside of a class to accidentally manipulate data that is inside of a class
 
-// //2. When we expose only a small interface (a small API consisting only a few public methods, then we can change all the other internal methods with more confidence), as we can be sure that external code will not rely on these private methods, and therefore code will not break when we do internal changes
+// //!2. When we expose only a small interface (a small API consisting only a few public methods, then we can change all the other internal methods with more confidence), as we can be sure that external code will not rely on these private methods, and therefore code will not break when we do internal changes
 
-// //JS classes do not yet support real data privacy and data encapsulation, there is a proposal to add truly private class fields and methods to the language, but its not completely ready yet
+// //!JS classes do not yet support real data privacy and data encapsulation, there is a proposal to add truly private class fields and methods to the language, but its not completely ready yet
 
-// //we fake encapsulation by using convension ("_" in front of methods and properties )
+// //!we fake encapsulation by using convention ("_" in front of methods and properties )
 
 // class AccountTest {
 //   constructor(owner, currency, pin) {
@@ -903,15 +974,15 @@ acc1.withdraw(140);
 //     this.currency = currency;
 //     //PROTECTED PROPERTY
 //     // (since it is not truly private, it is just a convention, something that developers agree to use and keep it in mind not to access from outside of the class)
-//     this._pin = pin; //we cannot access using (testCus.pin)
-//     this._movements = []; //we cannot access using (testCus.movements)
+//     this._pin = pin; //?we cannot access using (testCus.pin)
+//     this._movements = []; //?we cannot access using (testCus.movements)
 //     /////////////////////
-//     this.locale = navigator.laguages;
+//     this.locale = navigator.languages;
 
 //     console.log(`Thanks for opening an account, ${owner}`);
 //   }
 
-//   //giving access to the user to view the movements, but the movements cannot be manipulated or overwritten
+//   //?giving access to the user to view the movements, but the movements cannot be manipulated or overwritten
 //   getMovements() {
 //     console.log(this._movements);
 //   }
@@ -924,7 +995,7 @@ acc1.withdraw(140);
 //     this.deposit(-val);
 //   }
 
-//   //we do not want user to access "_approveLoan" method
+//   //?we do not want user to access "_approveLoan" method
 //   _approveLoan(val) {
 //     //cannot access using "testCus.approveLoan()"
 //     return true;
@@ -944,33 +1015,33 @@ acc1.withdraw(140);
 // testCus.deposit(100);
 
 // console.log(testCus.movements); //undefined
-// //we cannot use (testCus.movements) to access the movements as we use "_movements" inside of the class to store the movements
+// //?we cannot use (testCus.movements) to access the movements as we use "_movements" inside of the class to store the movements
 
 // //*******************************************************
-// //we can still access it using (testCus._movements), but now it is known that "_movements" is used inside of the class and not supposed to be touched outside of the class
-// // console.log(testCus._movements);
+// //?we can still access it using (testCus._movements), but now it is known that "_movements" is used inside of the class and not supposed to be touched outside of the class
+// //? console.log(testCus._movements);
 // //*******************************************************
 
 // //we can use the getMovements() to view the movements
 // testCus.getMovements(); //100
 
-// // testCus.approveLoan(); //testCus.approveLoan is not a function
+// testCus.approveLoan(); //?testCus.approveLoan is not a function
 
 // //***********************************************
-// //we can access it by using _approveLoan()
-// console.log(testCus._approveLoan());
+// //?we can access it by using _approveLoan()
+// ?console.log(testCus._approveLoan());
 // //***********************************************
 
 ////////////////////////////////////////////////////////////////////////
 
-/////////////////////PRIVATE CLASS FIELDS AND METHODS///////////////////
+//*8.2: PRIVATE CLASS FIELDS AND METHODS///////////////////
 
-//private class fields and methods are a part of a bigger proposal of "class fields" (that aims at improving and changing JS classes)
+//!private class fields and methods are a part of a bigger proposal of "class fields" (that aims at improving and changing JS classes)
 
 //"class fields" proposal is currently at STAGE 3, not yet part of the JS language, however, being at STAGE 3, means it will at some point in the future move forward to STAGE 4 and then be a part of JS.
 
-//some parts of this proposal already work in google chrome, other parts dont
-//in traditional OOP languages like Java, C++, properties are usually called "fields", so with this new proposal, JS is moving away from he idea that classes are just syntactic sugar over constructor function, with these new class features, classes actually start to have abilities that we did not previously have with constructor function
+//some parts of this proposal already work in google chrome, other parts don't
+//!in traditional OOP languages like Java, C++, properties are usually called "fields", so with this new proposal, JS is moving away from the idea that classes are just syntactic sugar over constructor function, with these new class features, classes actually start to have abilities that we did not previously have with constructor function
 
 //In this proposal, there are 8 different kinds of fields and methods
 
@@ -979,20 +1050,20 @@ acc1.withdraw(140);
 //2.Public methods
 //3.Private fields
 //4.Private methods
-// we also have the static versions of the above methods
+// (x2) we also have the static versions of the above methods
 
-//we can think of a field as a property
+//?we can think of a field as a property
 
 class AccountTest {
-  //The fields that we are adding are on the objects / instances and not on the prototypes, these fields are also referenceable by the "this" keyword
+  //!The fields (only for fields) that we are adding are on the objects / instances and not on the prototypes, these fields are also reference-able by the "this" keyword
 
-  //1) PUBLIC FIELDS (property that will be present on every instance / object, that we are creating through the class, also called Public Instance Field )
+  //!1) PUBLIC FIELDS (property that will be present on every instance / object, that we are creating through the class, also called Public Instance Field )
 
-  //syntax for a Public Field: we need a ";" at the end and we do not need to declare it
+  //?syntax for a Public Field: we need a ";" at the end and we do not need to declare it
   locale = navigator.language;
 
-  //2) PRIVATE FIELDS  (these preperties are really truly private not accessible from the outside)
-  //syntax for a Private Field: we need a ";" at the end and we do not need to declare it, "#" in front of the property, that makes it a private field, we now have the name of the property / field as "#variable"
+  //!2) PRIVATE FIELDS  (these properties are really truly private not accessible from the outside)
+  //?syntax for a Private Field: we need a ";" at the end and we do not need to declare it, "#" in front of the property, that makes it a private field, we now have the name of the property / field as "#variable"
   #movements = [];
   #pin; //not set to anything (in the beginning it is set to "undefined")
 
@@ -1001,85 +1072,88 @@ class AccountTest {
     this.currency = currency;
 
     // this._pin = pin;
-    //we want to convert "pin" it to a truly private field, but it is a little different as we are setting the pin to the value we pass to the constructor in the constructor, however we can not define a field inside of the constructor, they have to be out, outside of any method
+    //!we want to convert "pin" it to a truly private field, but it is a little different as we are setting the pin to the value we pass to the constructor in the constructor, however we can not define a field inside of the constructor, they have to be out, outside of any method
 
-    //reassigned down here
+    //?reassigned down here
     this.#pin = pin;
 
-    //having these above is exactly same as having it here when it comes to adding it to objects
+    //!having these above is exactly same as having it here when it comes to adding it to objects
     // this._movements = [];
-    // this.locale = navigator.laguages;
+    // this.locale = navigator.languages;
 
     console.log(`Thanks for opening an account, ${owner}`);
   }
 
-  // PUBLIC METHODS (all these methods are public methods, all of these methods become the public interface of the class)
-  //we can still use this method to get the movements even though it is a private field now, we cannot manipulate it though
+  //!3) PUBLIC METHODS (all these methods are public methods, all of these methods become the public interface of the class)
+  //!we can still use this method to get the movements even though it is a private field now, we cannot manipulate it though
   getMovements() {
     console.log(this.#movements);
   }
 
   deposit(val) {
     this.#movements.push(val);
-    return this; //returning "this" returns the current object, on which we can call the next method if we are chaining methods
+    return this; //?returning "this" returns the current object, on which we can call the next method if we are chaining methods
   }
 
   withdraw(val) {
     this.deposit(-val);
-    return this; //returning "this" returns the current object, on which we can call the next method if we are chaining methods
+    return this; //?returning "this" returns the current object, on which we can call the next method if we are chaining methods
   }
 
   requestLoan(val) {
     if (this.#approveLoan(val)) {
       this.deposit(val);
       console.log('Loan Approved');
-      return this; //returning "this" returns the current object, on which we can call the next method if we are chaining methods
+      return this; //?returning "this" returns the current object, on which we can call the next method if we are chaining methods
     }
   }
 
-  //PRIVATE METHODS (very useful to hide the implementation details from outside)
+  //!4) PRIVATE METHODS (very useful to hide the implementation details from outside)
 
-  //to make method private we hase the same syntax as making a field private, adding a "#" in front of method name
+  //?to make method private we have the same syntax as making a field private, adding a "#" in front of method name
   #approveLoan(val) {
-    //google chrome till now treats this method not as a private method but as a private field, so it can be seen in the instance of the class and not in the prototype
+    //?google chrome till now treats this method not as a private method but as a private field, so it can be seen in the instance of the class and not in the prototype
+    //!Update: google chrome now sees it as a private method, but it is not in the prototype
     return true;
   }
 
-  //STATIC PUBLIC METHOD (we have already used it)
+  //! STATIC PUBLIC METHOD (we have already used it)
 
-  //these "static" methods will not be available on the instances / objects but on the class itself
+  //!these "static" methods will not be available on the instances / objects but on the class itself
   static helper() {
     console.log('Helper');
   }
 }
 
 const testCus = new AccountTest('Jonas', 'EUR', 1111);
+console.log(testCus);
 
-// console.log(testCus.#movements); //cannot access this private field (property) from outside
-//error:Private field '#movements' must be declared in an enclosing class
+// console.log(testCus.#movements); //?cannot access this private field (property) from outside
+//!error:Private field '#movements' must be declared in an enclosing class
 
-// console.log(testCus.#pin); //cannot access this private field (property) from outside
-//Private field '#pin' must be declared in an enclosing class
+// console.log(testCus.#pin); //?cannot access this private field (property) from outside
+//!Private field '#pin' must be declared in an enclosing class
 
 testCus.deposit(100);
 testCus.getMovements(); //[100]
 
 //**************************************
-//checking if we can access it from outside
-//chrome currently sees this as a private field and not as a private method
-// console.log(testCus.#approveLoan(100));//Private field '#approveLoan' must be declared in an enclosing class
+//?checking if we can access it from outside
+//?chrome currently sees this as a private field and not as a private method
+//!Update: chrome now sees it as a private method
+// console.log(testCus.#approveLoan(100));//! Private field '#approveLoan' must be declared in an enclosing class
 //**************************************
 
-//calling the "static" Public method
+//?calling the "static" Public method
 AccountTest.helper(); //Helper
 
-//other three static methods and fields are not that important
+//?other three static methods and fields are not that important
 
 ////////////////////////////////////////////////////////////////////////
 
-////////////////////////Chaining Methods////////////////////////////////
+//*8.3: Chaining Methods////////////////////////////////
 
-//we can also chain class methods, given that each time, we are returned the object an object each time, so that we can attach another method on that object
+//?we can also chain class methods, given that each time, we are returned the object an object each time, so that we can attach another method on that object
 
 //*********************************************
 //BEFORE WE MADE CHANGES AND RETURNED "this", THESE METHODS RETURNED NOTHING (undefined)
@@ -1093,7 +1167,7 @@ AccountTest.helper(); //Helper
 //as the deposit method in the beginning of the chain deposit nothing (undefined), and so we are trying to call deposit method on undefined
 //*********************************************
 
-//to make this work we can return the current object  (or object we wish to return) in the method, so that the next method is called on the current object (object we returned)
+//!to make this work we can return the current object (or object we wish to return) in the method, so that the next method is called on the current object (object we returned)
 
 //now this works
 testCus

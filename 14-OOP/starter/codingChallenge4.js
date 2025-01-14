@@ -16,7 +16,7 @@ class CarCl {
     this.make = make;
     this.speed = speed;
   }
-  acclerate() {
+  accelerate() {
     this.speed = this.speed + 10;
     console.log(this.speed);
     return this; //this returns the current object and makes chaining of methods possible
@@ -47,5 +47,5 @@ const rivian = new EVCl('Rivian', 120, 20);
 rivian.chargeBattery(90);
 console.log(rivian.showCharge());
 
-rivian.acclerate().brake();
+rivian.accelerate().brake();
 console.log(rivian); //EVCl {make: 'Rivian', speed: 125, #charge: 90}

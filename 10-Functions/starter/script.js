@@ -1,5 +1,9 @@
 'use strict';
 
+//************  Topic Covered In This Module ************//
+//
+//*******************************************************/
+
 /////////////////////////////////////Functions///////////////////////////////////
 
 /////////////////////////////////Default Parameters//////////////////////////////
@@ -21,7 +25,7 @@ const createBooking = function (
   // flightNum, price = 199 * numPassenger, numPassenger = 1, this way price will be undefined if  no argument passed for it while calling the function as it cannot be  dynamically calculated by default,its calculation involves numPassenger that is passed later, JS specifies the parameters in order.
   flightNum,
   numPassenger = 1,
-  price = 199 * numPassenger //default vlaues can contain any expression, here we use numPassenger,which was set before it.
+  price = 199 * numPassenger //default values can contain any expression, here we use numPassenger,which was set before it.
 ) {
   //ES6 default value setting
   // //old way of setting default parameters (ES5)
@@ -112,7 +116,7 @@ const oneWord = function (Str) {
 
 const upperFirstWord = function (str) {
   const [first, ...others] = str.split(' '); //separate the first word from the rest of the string, (rest operator used)
-  return [first.toUpperCase(), ...others].join(' '); //first word is CAPITALISED and then joined wth the rest of the string
+  return [first.toUpperCase(), ...others].join(' '); //first word is CAPITALIZED and then joined wth the rest of the string
 };
 
 //HIGHER-ORDER FUNCTION

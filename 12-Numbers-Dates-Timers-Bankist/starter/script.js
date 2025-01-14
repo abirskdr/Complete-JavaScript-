@@ -26,7 +26,7 @@ const account1 = {
     '2022-02-08T23:36:17.929Z',
     '2022-02-06T10:51:36.790Z',
   ],
-  //z at the end of date string is universally co-ordinated time, i.e. the time without any timezone in London and also without daylight savings
+  //z at the end of date string is universally coordinated time, i.e. the time without any timezone in London and also without daylight savings
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
 };
@@ -702,7 +702,7 @@ console.log(5 % 2); //1 (remainder)
 
 console.log(5 / 2); //2.5
 
-console.log(8 % 3); //2 (reminader)
+console.log(8 % 3); //2 (remainder)
 
 console.log(8 / 3); // 2.6666666666666665
 
@@ -740,7 +740,7 @@ console.log(diameterG); //287460000000  //js ignores the "_" but it makes the va
 
 //js ignore the use of "_" in between numbers, and we can use it to understand numbers better, 160 cm can be written as 1_60 to denote 1 m 60 cm
 
-//we can only place "_" between numbers , it is not allowed to add it in the begnning or the end or before or after "."
+//we can only place "_" between numbers , it is not allowed to add it in the beginning or the end or before or after "."
 
 // const PI=3._14;
 // console.log(PI);
@@ -796,18 +796,18 @@ console.log(2345245243254315n * 32432253426346426444n);
 
 console.log(32453435354252n + BigInt(345324645643));
 
-//Math operations are not goint to work with BigInt
+//Math operations are not going to work with BigInt
 
 // console.log(Math.sqrt(16n)); // Cannot convert a BigInt value to a number at Math.sqrt
 
 //divisions using bigint numbers
 
-console.log(10n / 3n); //returns the closest bigint (3n), cutts off the decimal part
+console.log(10n / 3n); //returns the closest bigint (3n), cuts off the decimal part
 
 console.log(10 / 3); //3.3333333333333335
 
 //***************************************************** */
-//there are two excptions to this when working with the comparision operators (=== and ==) and logical operators and "+" operator when working with strings
+//there are two exceptions to this when working with the comparison operators (=== and ==) and logical operators and "+" operator when working with strings
 
 //logical operators
 
@@ -1031,7 +1031,7 @@ if (ingredients.includes('spinach')) {
 
 //the setInterval function returns an interval ID which uniquely identifies the interval, so you can remove it later by calling clearInterval().
 
-//we alse have a function clearInterval just like clearTimeout, to clear the setInterval function
+//we else have a function clearInterval just like clearTimeout, to clear the setInterval function
 
 //make a clock using this
 

@@ -20,7 +20,7 @@ const Car = function (make, speed) {
 
 //prototypes
 
-Car.prototype.acclerate = function () {
+Car.prototype.accelerate = function () {
   this.speed = this.speed + 10;
   console.log(this.speed);
 };
@@ -49,8 +49,8 @@ console.log(tesla.charge); //90
 
 tesla.brake(); //115
 
-//this overwrites the accleration method in the Car.prototype when an object of EV calls acclerate() method, this is an example of polymorphism
-EV.prototype.acclerate = function () {
+//this overwrites the acceleration method in the Car.prototype when an object of EV calls accelerate() method, this is an example of polymorphism
+EV.prototype.accelerate = function () {
   this.speed = this.speed + 20;
   this.charge = this.charge - 1;
   console.log(
@@ -58,4 +58,4 @@ EV.prototype.acclerate = function () {
   );
 };
 
-tesla.acclerate(); //Tesla going at 135 km/h, with a charge of 89%
+tesla.accelerate(); //Tesla going at 135 km/h, with a charge of 89%
