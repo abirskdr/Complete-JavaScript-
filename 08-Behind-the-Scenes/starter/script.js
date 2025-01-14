@@ -35,6 +35,7 @@ function calcAge(birthYear) {
   function printAge() {
     let output = `${firstName}, you are ${age}, born in ${birthYear}`; //?gets age variable from parent function and firstName from the global scope and birthYear from its outer function scope.
     console.log(output);
+    console.log(output);
 
     //block scoping
     if (birthYear >= 1981 && birthYear <= 1996) {
